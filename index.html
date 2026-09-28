@@ -1,2197 +1,825 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>LIKHITH PB // CYBER CORE</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap');
-
-:root{
-    --green:#00ff88;
-    --cyan:#00eaff;
-    --red:#ff164e;
-    --purple:#8b5cf6;
-    --bg:#010303;
-    --panel:rgba(4,12,9,.78);
-    --line:rgba(0,255,136,.16);
-    --text:#d9ffe9;
-    --muted:#557565;
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:'Share Tech Mono',monospace;
-    overflow-x:hidden;
-}
-
-/* =========================================
-   BACKGROUND
-========================================= */
-
-#canvas{
-    position:fixed;
-    inset:0;
-    width:100%;
-    height:100%;
-    z-index:-10;
-}
-
-.noise{
-    position:fixed;
-    inset:0;
-    z-index:100;
-    pointer-events:none;
-    opacity:.04;
-
-    background-image:url(
-        "data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E"
-    );
-}
-
-.scanlines{
-    position:fixed;
-    inset:0;
-    z-index:99;
-    pointer-events:none;
-
-    background:
-    repeating-linear-gradient(
-        0deg,
-        transparent 0,
-        transparent 3px,
-        rgba(0,255,130,.025) 4px
-    );
-}
-
-.vignette{
-    position:fixed;
-    inset:0;
-    z-index:98;
-    pointer-events:none;
-
-    box-shadow:
-        inset 0 0 180px #000,
-        inset 0 0 70px rgba(0,255,130,.04);
-}
-
-/* =========================================
-   NAV
-========================================= */
-
-nav{
-    position:fixed;
-
-    width:min(1250px,94%);
-
-    top:18px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    z-index:1000;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:14px 20px;
-
-    border:1px solid var(--line);
-
-    background:rgba(0,5,3,.78);
-
-    backdrop-filter:blur(15px);
-
-    box-shadow:
-        0 0 30px rgba(0,255,136,.03);
-}
-
-.logo{
-    font-family:'Orbitron';
-
-    font-size:13px;
-
-    letter-spacing:3px;
-
-    color:#fff;
-}
-
-.logo b{
-    color:var(--green);
-
-    text-shadow:
-        0 0 12px var(--green);
-}
-
-.nav-links{
-    display:flex;
-    gap:28px;
-}
-
-.nav-links a{
-    color:#527362;
-
-    text-decoration:none;
-
-    font-size:10px;
-
-    transition:.3s;
-}
-
-.nav-links a:hover{
-    color:var(--green);
-
-    text-shadow:
-        0 0 12px var(--green);
-}
-
-.status{
-    color:var(--green);
-
-    font-size:9px;
-
-    display:flex;
-    align-items:center;
-
-    gap:7px;
-}
-
-.status i{
-    width:6px;
-    height:6px;
-
-    background:var(--green);
-
-    border-radius:50%;
-
-    box-shadow:
-        0 0 12px var(--green);
-
-    animation:pulse 1s infinite;
-}
-
-@keyframes pulse{
-    50%{
-        opacity:.25;
-    }
-}
-
-/* =========================================
-   HERO
-========================================= */
-
-.hero{
-    min-height:100vh;
-
-    width:min(1250px,92%);
-
-    margin:auto;
-
-    display:grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    align-items:center;
-
-    gap:60px;
-
-    padding-top:100px;
-}
-
-/* =========================================
-   HERO LEFT
-========================================= */
-
-.kicker{
-    color:var(--green);
-
-    font-size:10px;
-
-    letter-spacing:4px;
-
-    margin-bottom:20px;
-}
-
-.kicker::before{
-    content:"[ ";
-
-    color:#395c49;
-}
-
-.kicker::after{
-    content:" ]";
-
-    color:#395c49;
-}
-
-.hero h1{
-    font-family:'Orbitron';
-
-    font-size:
-        clamp(48px,7vw,100px);
-
-    line-height:.88;
-
-    letter-spacing:-6px;
-
-    color:white;
-
-    position:relative;
-}
-
-.hero h1 span{
-    color:transparent;
-
-    -webkit-text-stroke:
-        1px var(--green);
-
-    text-shadow:
-        0 0 25px rgba(0,255,136,.1);
-}
-
-/* glitch */
-
-.glitch{
-    position:relative;
-}
-
-.glitch::before,
-.glitch::after{
-    content:attr(data-text);
-
-    position:absolute;
-
-    left:0;
-    top:0;
-
-    opacity:.7;
-
-    pointer-events:none;
-}
-
-.glitch::before{
-    color:var(--cyan);
-
-    transform:translate(3px);
-
-    clip-path:
-        polygon(
-            0 10%,
-            100% 10%,
-            100% 28%,
-            0 28%
-        );
-
-    animation:glitchA 2.5s infinite;
-}
-
-.glitch::after{
-    color:var(--red);
-
-    transform:translate(-3px);
-
-    clip-path:
-        polygon(
-            0 70%,
-            100% 70%,
-            100% 90%,
-            0 90%
-        );
-
-    animation:glitchB 1.8s infinite;
-}
-
-@keyframes glitchA{
-
-    0%,90%,100%{
-        transform:translate(0);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Likhith PB | CSE Student</title>
+
+  <style>
+    /* =========================
+       RESET
+    ========================== */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    92%{
-        transform:translate(10px,-2px);
+    html {
+      scroll-behavior: smooth;
     }
 
-    95%{
-        transform:translate(-4px,2px);
-    }
-}
-
-@keyframes glitchB{
-
-    0%,87%,100%{
-        transform:translate(0);
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #fff;
+      background: #050816;
+      overflow-x: hidden;
     }
 
-    90%{
-        transform:translate(-9px,2px);
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
-    94%{
-        transform:translate(4px,-2px);
-    }
-}
-
-.hero-description{
-    max-width:600px;
-
-    color:#5e7c6b;
-
-    line-height:1.9;
-
-    font-size:13px;
-
-    margin-top:28px;
-}
-
-.hero-description strong{
-    color:#baffd0;
-}
-
-/* =========================================
-   COMMAND LINE
-========================================= */
-
-.command-line{
-    margin-top:28px;
-
-    color:#547565;
-
-    font-size:11px;
-}
-
-.command-line span{
-    color:var(--green);
-}
-
-.cursor{
-    display:inline-block;
-
-    width:7px;
-    height:13px;
-
-    background:var(--green);
-
-    margin-left:4px;
-
-    vertical-align:middle;
-
-    animation:blink .8s infinite;
-}
-
-@keyframes blink{
-    50%{
-        opacity:0;
-    }
-}
-
-/* =========================================
-   BUTTONS
-========================================= */
-
-.actions{
-    display:flex;
-
-    gap:12px;
-
-    margin-top:28px;
-}
-
-.btn{
-    padding:13px 20px;
-
-    text-decoration:none;
-
-    font-size:10px;
-
-    color:var(--green);
-
-    border:1px solid var(--green);
-
-    position:relative;
-
-    overflow:hidden;
-
-    transition:.3s;
-
-    background:
-        rgba(0,255,136,.025);
-}
-
-.btn::before{
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    background:var(--green);
-
-    transform:translateX(-101%);
-
-    transition:.3s;
-
-    z-index:-1;
-}
-
-.btn:hover{
-    color:#000;
-
-    box-shadow:
-        0 0 30px rgba(0,255,136,.25);
-}
-
-.btn:hover::before{
-    transform:translateX(0);
-}
-
-.btn.alt{
-    color:#667b70;
-
-    border-color:#2d4338;
-}
-
-.btn.alt:hover{
-    color:#fff;
-
-    border-color:var(--cyan);
-}
-
-.btn.alt::before{
-    background:var(--cyan);
-}
-
-/* =========================================
-   3D CYBER CORE
-========================================= */
-
-.core-wrapper{
-    height:580px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    perspective:1200px;
-
-    position:relative;
-}
-
-.core-scene{
-    width:360px;
-    height:360px;
-
-    position:relative;
-
-    transform-style:preserve-3d;
-
-    transition:
-        transform .15s ease-out;
-}
-
-/* rings */
-
-.ring{
-    position:absolute;
-
-    inset:20px;
-
-    border-radius:50%;
-
-    border:1px solid rgba(0,255,136,.28);
-
-    box-shadow:
-        0 0 25px rgba(0,255,136,.04);
-
-    transform-style:preserve-3d;
-}
-
-.ring.r1{
-    transform:
-        rotateX(70deg)
-        rotateZ(15deg);
-
-    animation:
-        spin1 8s linear infinite;
-}
-
-.ring.r2{
-    inset:50px;
-
-    border-color:
-        rgba(0,234,255,.35);
-
-    transform:
-        rotateY(70deg)
-        rotateZ(20deg);
-
-    animation:
-        spin2 6s linear infinite;
-}
-
-.ring.r3{
-    inset:75px;
-
-    border-color:
-        rgba(255,22,78,.25);
-
-    transform:
-        rotateX(60deg);
-
-    animation:
-        spin3 5s linear infinite;
-}
-
-@keyframes spin1{
-    to{
-        transform:
-            rotateX(70deg)
-            rotateZ(375deg);
-    }
-}
-
-@keyframes spin2{
-    to{
-        transform:
-            rotateY(430deg)
-            rotateZ(20deg);
-    }
-}
-
-@keyframes spin3{
-    to{
-        transform:
-            rotateX(420deg);
-    }
-}
-
-/* core */
-
-.core{
-    position:absolute;
-
-    width:150px;
-    height:150px;
-
-    left:105px;
-    top:105px;
-
-    transform-style:preserve-3d;
-
-    transform:
-        rotateX(20deg)
-        rotateY(20deg);
-
-    animation:
-        coreFloat 4s ease-in-out infinite;
-}
-
-@keyframes coreFloat{
-    50%{
-        transform:
-            rotateX(30deg)
-            rotateY(200deg)
-            translateY(-12px);
-    }
-}
-
-/* cube */
-
-.cube{
-    position:absolute;
-
-    width:130px;
-    height:130px;
-
-    left:10px;
-    top:10px;
-
-    transform-style:preserve-3d;
-
-    animation:
-        cubeSpin 10s linear infinite;
-}
-
-.face{
-    position:absolute;
-
-    width:130px;
-    height:130px;
-
-    border:
-        1px solid rgba(0,255,136,.55);
-
-    background:
-        rgba(0,255,136,.025);
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-family:'Orbitron';
-
-    font-size:9px;
-
-    color:var(--green);
-
-    box-shadow:
-        inset 0 0 30px rgba(0,255,136,.025);
-}
-
-.front{
-    transform:translateZ(65px);
-}
-
-.back{
-    transform:rotateY(180deg) translateZ(65px);
-}
-
-.right{
-    transform:
-        rotateY(90deg)
-        translateZ(65px);
-}
-
-.left{
-    transform:
-        rotateY(-90deg)
-        translateZ(65px);
-}
-
-.top{
-    transform:
-        rotateX(90deg)
-        translateZ(65px);
-}
-
-.bottom{
-    transform:
-        rotateX(-90deg)
-        translateZ(65px);
-}
-
-@keyframes cubeSpin{
-    from{
-        transform:
-            rotateX(0)
-            rotateY(0)
-            rotateZ(0);
+    /* =========================
+       ANIMATED BACKGROUND
+    ========================== */
+
+    body::before {
+      content: "";
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      background: #6c2cff;
+      filter: blur(180px);
+      opacity: 0.25;
+      top: -200px;
+      left: -200px;
+      z-index: -2;
     }
 
-    to{
-        transform:
-            rotateX(360deg)
-            rotateY(360deg)
-            rotateZ(180deg);
-    }
-}
-
-/* center */
-
-.core-light{
-    position:absolute;
-
-    width:40px;
-    height:40px;
-
-    left:55px;
-    top:55px;
-
-    border-radius:50%;
-
-    background:
-        var(--green);
-
-    box-shadow:
-        0 0 15px var(--green),
-        0 0 50px var(--green),
-        0 0 100px rgba(0,255,136,.7);
-
-    animation:
-        corePulse 2s infinite;
-}
-
-@keyframes corePulse{
-    50%{
-        transform:scale(1.3);
-
-        opacity:.6;
-    }
-}
-
-/* orbit dots */
-
-.orbit-dot{
-    position:absolute;
-
-    width:6px;
-    height:6px;
-
-    border-radius:50%;
-
-    background:var(--cyan);
-
-    box-shadow:
-        0 0 15px var(--cyan);
-
-    animation:
-        orbit 4s linear infinite;
-}
-
-.orbit-dot:nth-child(1){
-    animation-delay:0s;
-}
-
-.orbit-dot:nth-child(2){
-    animation-delay:-1.3s;
-    background:var(--red);
-    box-shadow:0 0 15px var(--red);
-}
-
-.orbit-dot:nth-child(3){
-    animation-delay:-2.6s;
-}
-
-@keyframes orbit{
-
-    0%{
-        transform:
-            rotate(0deg)
-            translateX(190px)
-            rotate(0deg);
+    body::after {
+      content: "";
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      background: #00eaff;
+      filter: blur(180px);
+      opacity: 0.18;
+      right: -150px;
+      bottom: -150px;
+      z-index: -2;
     }
 
-    100%{
-        transform:
-            rotate(360deg)
-            translateX(190px)
-            rotate(-360deg);
-    }
-}
-
-/* =========================================
-   CORE DATA PANELS
-========================================= */
-
-.data-panel{
-    position:absolute;
-
-    padding:12px;
-
-    background:
-        rgba(0,7,4,.85);
-
-    border:
-        1px solid var(--line);
-
-    font-size:8px;
-
-    color:#587766;
-
-    backdrop-filter:blur(8px);
-}
-
-.data-panel strong{
-    display:block;
-
-    color:var(--green);
-
-    font-size:9px;
-
-    margin-bottom:5px;
-}
-
-.panel-a{
-    top:20px;
-    right:-20px;
-}
-
-.panel-b{
-    bottom:45px;
-    left:-30px;
-}
-
-.panel-c{
-    bottom:0;
-    right:20px;
-
-    color:var(--cyan);
-}
-
-/* =========================================
-   SECTIONS
-========================================= */
-
-section{
-    width:min(1200px,92%);
-
-    margin:auto;
-
-    padding:130px 0;
-}
-
-.section-label{
-    color:var(--green);
-
-    font-size:9px;
-
-    letter-spacing:4px;
-}
-
-.section-title{
-    font-family:'Orbitron';
-
-    color:white;
-
-    font-size:
-        clamp(35px,5vw,65px);
-
-    margin-top:12px;
-
-    letter-spacing:-2px;
-}
-
-.section-title span{
-    color:var(--green);
-}
-
-.section-text{
-    max-width:620px;
-
-    color:#587366;
-
-    line-height:1.8;
-
-    font-size:12px;
-
-    margin-top:15px;
-}
-
-/* =========================================
-   ABOUT TERMINAL
-========================================= */
-
-.terminal{
-    margin-top:45px;
-
-    border:
-        1px solid var(--line);
-
-    background:
-        rgba(0,8,4,.8);
-
-    position:relative;
-
-    overflow:hidden;
-
-    box-shadow:
-        0 0 50px rgba(0,255,136,.025);
-}
-
-.terminal::after{
-    content:"";
-
-    position:absolute;
-
-    left:0;
-    right:0;
-
-    height:1px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            var(--green),
-            transparent
-        );
-
-    top:-2px;
-
-    animation:
-        scan 4s linear infinite;
-}
-
-@keyframes scan{
-    to{
-        top:100%;
-    }
-}
-
-.terminal-top{
-    height:38px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:7px;
-
-    padding:0 14px;
-
-    border-bottom:
-        1px solid var(--line);
-
-    color:#466555;
-
-    font-size:9px;
-}
-
-.tdot{
-    width:8px;
-    height:8px;
-
-    border-radius:50%;
-}
-
-.t-red{background:#ff1744}
-.t-yellow{background:#ffc107}
-.t-green{background:#00ff88}
-
-.terminal-body{
-    padding:28px;
-
-    font-size:12px;
-
-    line-height:2;
-}
-
-.prompt{
-    color:var(--green);
-}
-
-.output{
-    color:#6d8e7d;
-}
-
-.white{
-    color:#fff;
-}
-
-/* =========================================
-   SKILLS
-========================================= */
-
-.skills{
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:15px;
-
-    margin-top:45px;
-}
-
-.skill{
-    padding:30px;
-
-    min-height:250px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(0,255,136,.035),
-            rgba(0,0,0,.8)
-        );
-
-    border:
-        1px solid var(--line);
-
-    position:relative;
-
-    overflow:hidden;
-
-    transition:
-        transform .2s,
-        border .2s;
-}
-
-.skill:hover{
-    border-color:
-        rgba(0,255,136,.6);
-
-    transform:
-        translateY(-8px);
-
-    box-shadow:
-        0 20px 50px
-        rgba(0,255,136,.06);
-}
-
-.skill::before{
-    content:"";
-
-    position:absolute;
-
-    width:100px;
-    height:100px;
-
-    border-radius:50%;
-
-    background:
-        var(--green);
-
-    filter:blur(70px);
-
-    opacity:.08;
-
-    right:-30px;
-    top:-30px;
-}
-
-.skill-number{
-    color:#365344;
-
-    font-size:9px;
-}
-
-.skill-icon{
-    font-family:'Orbitron';
-
-    color:var(--green);
-
-    font-size:30px;
-
-    margin:
-        30px 0 20px;
-
-    text-shadow:
-        0 0 15px rgba(0,255,136,.3);
-}
-
-.skill h3{
-    font-family:'Orbitron';
-
-    font-size:12px;
-
-    color:white;
-}
-
-.skill p{
-    color:#547163;
-
-    font-size:10px;
-
-    line-height:1.8;
-
-    margin-top:10px;
-}
-
-/* =========================================
-   PROJECT / MISSION
-========================================= */
-
-.mission-grid{
-    display:grid;
-
-    grid-template-columns:
-        1.3fr .7fr;
-
-    gap:15px;
-
-    margin-top:45px;
-}
-
-.mission{
-    min-height:370px;
-
-    border:
-        1px solid var(--line);
-
-    background:
-        rgba(0,7,4,.75);
-
-    padding:35px;
-
-    position:relative;
-
-    overflow:hidden;
-}
-
-.mission.large{
-    background:
-        radial-gradient(
-            circle at 80% 20%,
-            rgba(0,255,136,.08),
-            transparent 30%
-        ),
-        rgba(0,7,4,.75);
-}
-
-.mission-code{
-    color:#345344;
-
-    font-size:9px;
-}
-
-.mission h3{
-    font-family:'Orbitron';
-
-    font-size:24px;
-
-    color:white;
-
-    margin-top:30px;
-}
-
-.mission h3 span{
-    color:var(--green);
-}
-
-.mission p{
-    max-width:550px;
-
-    color:#557466;
-
-    line-height:1.8;
-
-    font-size:11px;
-
-    margin-top:18px;
-}
-
-.mission-terminal{
-    position:absolute;
-
-    bottom:25px;
-    left:35px;
-
-    color:#456352;
-
-    font-size:9px;
-}
-
-.mission-terminal b{
-    color:var(--green);
-}
-
-.mini{
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:space-between;
-}
-
-.mini h3{
-    font-size:18px;
-}
-
-.mini .big{
-    font-family:'Orbitron';
-
-    color:var(--green);
-
-    font-size:45px;
-
-    text-shadow:
-        0 0 20px rgba(0,255,136,.25);
-}
-
-/* =========================================
-   FINAL
-========================================= */
-
-.final{
-    text-align:center;
-
-    padding:
-        160px 20px;
-}
-
-.final .small{
-    color:#466352;
-
-    font-size:9px;
-
-    letter-spacing:4px;
-}
-
-.final h2{
-    font-family:'Orbitron';
-
-    color:white;
-
-    font-size:
-        clamp(40px,7vw,90px);
-
-    line-height:.9;
-
-    margin:25px 0;
-}
-
-.final h2 span{
-    color:var(--green);
-
-    text-shadow:
-        0 0 30px rgba(0,255,136,.2);
-}
-
-.final p{
-    max-width:550px;
-
-    margin:auto;
-
-    color:#557163;
-
-    line-height:1.8;
-
-    font-size:12px;
-}
-
-/* =========================================
-   FOOTER
-========================================= */
-
-footer{
-    width:min(1200px,92%);
-
-    margin:auto;
-
-    padding:
-        30px 0 50px;
-
-    border-top:
-        1px solid var(--line);
-
-    display:flex;
-
-    justify-content:space-between;
-
-    color:#345142;
-
-    font-size:9px;
-}
-
-footer span{
-    color:var(--green);
-}
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
-@media(max-width:900px){
-
-    .hero{
-        grid-template-columns:1fr;
+    /* =========================
+       NAVBAR
+    ========================== */
+
+    nav {
+      width: 90%;
+      max-width: 1100px;
+      margin: 25px auto;
+      padding: 15px 25px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+
+      backdrop-filter: blur(20px);
+
+      box-shadow:
+        0 10px 40px rgba(0,0,0,0.3),
+        inset 0 1px rgba(255,255,255,0.08);
+
+      position: sticky;
+      top: 20px;
+      z-index: 100;
     }
 
-    .core-wrapper{
-        height:500px;
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 2px;
+
+      background: linear-gradient(90deg, #00eaff, #8b5cf6);
+      -webkit-background-clip: text;
+      color: transparent;
     }
 
-    .skills{
-        grid-template-columns:1fr;
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
     }
 
-    .mission-grid{
-        grid-template-columns:1fr;
+    nav a {
+      color: #ccc;
+      font-size: 14px;
+      transition: 0.3s;
     }
 
-}
-
-@media(max-width:600px){
-
-    .nav-links{
-        display:none;
+    nav a:hover {
+      color: #00eaff;
+      text-shadow: 0 0 15px #00eaff;
     }
 
-    .hero{
-        padding-top:130px;
+    /* =========================
+       HERO
+    ========================== */
+
+    .hero {
+      min-height: 90vh;
+      max-width: 1100px;
+      width: 90%;
+      margin: auto;
+
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: 50px;
     }
 
-    .hero h1{
-        font-size:50px;
-        letter-spacing:-3px;
+    .hero-content {
+      animation: fadeUp 1s ease;
     }
 
-    .core-wrapper{
-        transform:scale(.8);
-        margin:-40px 0;
+    .hello {
+      color: #00eaff;
+      font-size: 18px;
+      margin-bottom: 15px;
+      letter-spacing: 2px;
     }
 
-    .actions{
-        flex-direction:column;
+    .hero h1 {
+      font-size: clamp(50px, 8vw, 90px);
+      line-height: 0.95;
+      margin-bottom: 25px;
+
+      background: linear-gradient(
+        120deg,
+        #fff,
+        #00eaff,
+        #8b5cf6
+      );
+
+      -webkit-background-clip: text;
+      color: transparent;
+
+      text-shadow: 0 0 40px rgba(0,234,255,0.15);
     }
 
-    .btn{
-        text-align:center;
+    .hero h2 {
+      color: #aaa;
+      font-weight: 400;
+      font-size: 23px;
+      margin-bottom: 20px;
     }
 
-    section{
-        padding:90px 0;
+    .hero p {
+      max-width: 600px;
+      color: #999;
+      line-height: 1.8;
+      font-size: 16px;
     }
 
-    .mission{
-        min-height:400px;
+    /* =========================
+       BUTTON
+    ========================== */
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 35px;
     }
 
-    footer{
-        flex-direction:column;
-        gap:10px;
+    .btn {
+      padding: 14px 25px;
+      border-radius: 12px;
+
+      background: linear-gradient(
+        135deg,
+        #00eaff,
+        #6c2cff
+      );
+
+      color: white;
+      font-weight: 600;
+
+      box-shadow:
+        0 10px 30px rgba(0,234,255,0.2);
+
+      transition: 0.3s;
+
+      border: 1px solid rgba(255,255,255,0.2);
     }
 
-}
-</style>
+    .btn:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow:
+        0 20px 40px rgba(0,234,255,0.3);
+    }
+
+    .btn-outline {
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* =========================
+       3D CUBE
+    ========================== */
+
+    .cube-container {
+      height: 350px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      perspective: 900px;
+    }
+
+    .cube {
+      width: 180px;
+      height: 180px;
+
+      position: relative;
+
+      transform-style: preserve-3d;
+      animation: rotateCube 12s infinite linear;
+    }
+
+    .face {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-size: 45px;
+      font-weight: bold;
+
+      background: rgba(0,234,255,0.07);
+      border: 2px solid rgba(0,234,255,0.6);
+
+      box-shadow:
+        inset 0 0 30px rgba(0,234,255,0.15),
+        0 0 30px rgba(0,234,255,0.15);
+
+      backdrop-filter: blur(5px);
+    }
+
+    .front  { transform: translateZ(90px); }
+    .back   { transform: rotateY(180deg) translateZ(90px); }
+    .right  { transform: rotateY(90deg) translateZ(90px); }
+    .left   { transform: rotateY(-90deg) translateZ(90px); }
+    .top    { transform: rotateX(90deg) translateZ(90px); }
+    .bottom { transform: rotateX(-90deg) translateZ(90px); }
+
+    @keyframes rotateCube {
+      0% {
+        transform: rotateX(0) rotateY(0);
+      }
+
+      100% {
+        transform: rotateX(360deg) rotateY(360deg);
+      }
+    }
+
+    /* =========================
+       SECTIONS
+    ========================== */
+
+    section {
+      width: 90%;
+      max-width: 1100px;
+      margin: 120px auto;
+    }
+
+    .section-title {
+      font-size: 40px;
+      margin-bottom: 50px;
+      text-align: center;
+
+      background: linear-gradient(
+        90deg,
+        #fff,
+        #00eaff
+      );
+
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    /* =========================
+       GLASS CARDS
+    ========================== */
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .card {
+      padding: 30px;
+
+      background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.09),
+        rgba(255,255,255,0.02)
+      );
+
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+
+      backdrop-filter: blur(20px);
+
+      box-shadow:
+        0 20px 50px rgba(0,0,0,0.25),
+        inset 0 1px rgba(255,255,255,0.08);
+
+      transition: 0.4s;
+
+      transform-style: preserve-3d;
+    }
+
+    .card:hover {
+      transform:
+        translateY(-12px)
+        rotateX(4deg)
+        rotateY(-4deg);
+
+      border-color: rgba(0,234,255,0.5);
+
+      box-shadow:
+        0 30px 60px rgba(0,234,255,0.1);
+    }
+
+    .card-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+      font-size: 22px;
+    }
+
+    .card p {
+      color: #999;
+      line-height: 1.7;
+    }
+
+    /* =========================
+       SKILLS
+    ========================== */
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .skill {
+      padding: 15px 25px;
+
+      border-radius: 50px;
+
+      background: rgba(255,255,255,0.06);
+
+      border: 1px solid rgba(255,255,255,0.12);
+
+      color: #ccc;
+
+      transition: 0.3s;
+    }
+
+    .skill:hover {
+      color: #00eaff;
+      border-color: #00eaff;
+
+      transform: translateY(-5px) scale(1.05);
+
+      box-shadow:
+        0 10px 25px rgba(0,234,255,0.15);
+    }
+
+    /* =========================
+       ABOUT
+    ========================== */
+
+    .about-box {
+      padding: 45px;
+
+      background: rgba(255,255,255,0.04);
+
+      border: 1px solid rgba(255,255,255,0.1);
+
+      border-radius: 25px;
+
+      backdrop-filter: blur(20px);
+
+      box-shadow:
+        0 30px 70px rgba(0,0,0,0.3);
+    }
+
+    .about-box p {
+      color: #aaa;
+      line-height: 2;
+      font-size: 17px;
+      text-align: center;
+    }
+
+    .highlight {
+      color: #00eaff;
+    }
+
+    /* =========================
+       CONTACT
+    ========================== */
+
+    .contact {
+      text-align: center;
+    }
+
+    .contact p {
+      color: #999;
+      margin-bottom: 30px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    footer span {
+      color: #00eaff;
+    }
+
+    /* =========================
+       ANIMATIONS
+    ========================== */
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 800px) {
+
+      nav ul {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-top: 50px;
+      }
+
+      .hero p {
+        margin: auto;
+      }
+
+      .buttons {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .cube-container {
+        height: 280px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        font-size: 32px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<canvas id="canvas"></canvas>
+  <!-- =========================
+       NAVBAR
+  ========================== -->
 
-<div class="noise"></div>
-<div class="scanlines"></div>
-<div class="vignette"></div>
+  <nav>
+    <div class="logo">LPB.</div>
 
-
-<!-- =========================================
-     NAV
-========================================= -->
-
-<nav>
-
-    <div class="logo">
-        <b>PB</b>://LIKHITH
-    </div>
-
-    <div class="nav-links">
-
-        <a href="#home">HOME</a>
-        <a href="#about">ABOUT</a>
-        <a href="#skills">SKILLS</a>
-        <a href="#mission">MISSION</a>
-        <a href="#contact">CONTACT</a>
-
-    </div>
-
-    <div class="status">
-        <i></i>
-        ONLINE
-    </div>
-
-</nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#learning">Learning</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
 
-<!-- =========================================
-     HERO
-========================================= -->
+  <!-- =========================
+       HERO
+  ========================== -->
 
-<section class="hero" id="home">
+  <main id="home">
 
-    <div>
+    <div class="hero">
 
-        <div class="kicker">
-            SYSTEM ACCESS GRANTED
+      <div class="hero-content">
+
+        <div class="hello">
+          👋 HELLO, I'M
         </div>
 
-        <h1
-            class="glitch"
-            data-text="LIKHITH"
-        >
-            LIKHITH
-            <br>
-            <span>PB.</span>
+        <h1>
+          Likhith<br>
+          PB
         </h1>
 
-        <p class="hero-description">
-
-            <strong>Computer Science Engineering student</strong>
-            navigating the digital universe.
-
-            <br><br>
-
-            3rd semester.
-            Learning Web Development.
-            Building my DSA skills with C++.
-            Exploring Python.
-
-            <br><br>
-
-            <strong>
-                Still learning. Still building. Still loading.
-            </strong>
-
-        </p>
-
-        <div class="command-line">
-
-            <span>likhith@dev:~$</span>
-            ./build_future
-
-            <span class="cursor"></span>
-
-        </div>
-
-        <div class="actions">
-
-            <a
-                href="#skills"
-                class="btn"
-            >
-                ENTER SYSTEM →
-            </a>
-
-            <a
-                href="#about"
-                class="btn alt"
-            >
-                READ PROFILE
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================
-         CYBER CORE
-    ====================================== -->
-
-    <div class="core-wrapper">
-
-        <div
-            class="core-scene"
-            id="coreScene"
-        >
-
-            <div class="ring r1"></div>
-            <div class="ring r2"></div>
-            <div class="ring r3"></div>
-
-
-            <div class="core">
-
-                <div class="cube">
-
-                    <div class="face front">
-                        PB // 01
-                    </div>
-
-                    <div class="face back">
-                        CSE
-                    </div>
-
-                    <div class="face right">
-                        CODE
-                    </div>
-
-                    <div class="face left">
-                        BUILD
-                    </div>
-
-                    <div class="face top">
-                        DSA
-                    </div>
-
-                    <div class="face bottom">
-                        WEB
-                    </div>
-
-                </div>
-
-                <div class="core-light"></div>
-
-            </div>
-
-
-            <div class="orbit-dot"></div>
-            <div class="orbit-dot"></div>
-            <div class="orbit-dot"></div>
-
-
-            <div class="data-panel panel-a">
-
-                <strong>CORE_STATUS</strong>
-
-                POWER: 87%<br>
-                CPU: LEARNING<br>
-                MODE: BUILD
-
-            </div>
-
-
-            <div class="data-panel panel-b">
-
-                <strong>LOCATION</strong>
-
-                SEMESTER_03<br>
-                CSE // INDIA
-
-            </div>
-
-
-            <div class="data-panel panel-c">
-
-                SIGNAL // STABLE
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================
-     ABOUT
-========================================= -->
-
-<section id="about">
-
-    <div class="section-label">
-        [01] // IDENTITY
-    </div>
-
-    <h2 class="section-title">
-        THE <span>DEVELOPER</span>
-        BEHIND THE CODE.
-    </h2>
-
-    <p class="section-text">
-
-        No legendary story yet.
-        Just a student with a laptop,
-        curiosity and a lot of things
-        left to learn.
-
-    </p>
-
-
-    <div class="terminal">
-
-        <div class="terminal-top">
-
-            <div class="tdot t-red"></div>
-            <div class="tdot t-yellow"></div>
-            <div class="tdot t-green"></div>
-
-            <span>
-                /home/likhith/profile
-            </span>
-
-        </div>
-
-
-        <div class="terminal-body">
-
-            <div>
-                <span class="prompt">
-                    likhith@dev:~$
-                </span>
-
-                whoami
-            </div>
-
-            <div class="output">
-                BTech Computer Science Engineering Student
-            </div>
-
-
-            <br>
-
-
-            <div>
-                <span class="prompt">
-                    likhith@dev:~$
-                </span>
-
-                semester
-            </div>
-
-            <div class="output">
-                03
-            </div>
-
-
-            <br>
-
-
-            <div>
-                <span class="prompt">
-                    likhith@dev:~$
-                </span>
-
-                currently_learning
-            </div>
-
-            <div class="output">
-                Web Development // DSA // C++
-            </div>
-
-
-            <br>
-
-
-            <div>
-                <span class="prompt">
-                    likhith@dev:~$
-                </span>
-
-                python
-            </div>
-
-            <div class="output">
-                Basics unlocked.
-            </div>
-
-
-            <br>
-
-
-            <div>
-                <span class="prompt">
-                    likhith@dev:~$
-                </span>
-
-                future
-            </div>
-
-            <div class="white">
-                BUILD SOMETHING WORTH REMEMBERING.
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================
-     SKILLS
-========================================= -->
-
-<section id="skills">
-
-    <div class="section-label">
-        [02] // LOADOUT
-    </div>
-
-    <h2 class="section-title">
-        CURRENT <span>ARSENAL.</span>
-    </h2>
-
-    <p class="section-text">
-        Technologies and concepts currently
-        installed in my brain.exe.
-    </p>
-
-
-    <div class="skills">
-
-
-        <div class="skill">
-
-            <div class="skill-number">
-                MODULE_001
-            </div>
-
-            <div class="skill-icon">
-                &lt;/&gt;
-            </div>
-
-            <h3>
-                WEB DEVELOPMENT
-            </h3>
-
-            <p>
-                Learning how HTML, CSS and
-                JavaScript come together to
-                create interactive websites.
-            </p>
-
-        </div>
-
-
-        <div class="skill">
-
-            <div class="skill-number">
-                MODULE_002
-            </div>
-
-            <div class="skill-icon">
-                C++
-            </div>
-
-            <h3>
-                DSA
-            </h3>
-
-            <p>
-                Currently exploring Data
-                Structures and Algorithms
-                using C++.
-            </p>
-
-        </div>
-
-
-        <div class="skill">
-
-            <div class="skill-number">
-                MODULE_003
-            </div>
-
-            <div class="skill-icon">
-                PY
-            </div>
-
-            <h3>
-                PYTHON
-            </h3>
-
-            <p>
-                Basic Python knowledge with
-                a focus on programming
-                fundamentals.
-            </p>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-<!-- =========================================
-     MISSION
-========================================= -->
-
-<section id="mission">
-
-    <div class="section-label">
-        [03] // MISSION
-    </div>
-
-    <h2 class="section-title">
-        LOADING <span>NEXT LEVEL.</span>
-    </h2>
-
-    <p class="section-text">
-        The journey is still in its early stages.
-    </p>
-
-
-    <div class="mission-grid">
-
-
-        <div class="mission large">
-
-            <div class="mission-code">
-                PROJECT // FUTURE.exe
-            </div>
-
-            <h3>
-                LEARN.
-                <span>BUILD.</span>
-                REPEAT.
-            </h3>
-
-            <p>
-
-                My current mission is simple:
-
-                understand the fundamentals,
-                build real projects,
-                solve difficult problems,
-                and keep improving.
-
-                <br><br>
-
-                Every bug is another piece of
-                the puzzle.
-
-            </p>
-
-            <div class="mission-terminal">
-
-                <b>[ACTIVE]</b>
-                development_mode
-
-            </div>
-
-        </div>
-
-
-        <div class="mission mini">
-
-            <div>
-
-                <div class="mission-code">
-                    CURRENT_PROGRESS
-                </div>
-
-                <h3>
-                    KNOWLEDGE
-                    <span>CORE</span>
-                </h3>
-
-            </div>
-
-            <div class="big">
-                03
-            </div>
-
-            <div class="mission-code">
-                SEMESTER // CSE
-            </div>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-<!-- =========================================
-     CONTACT
-========================================= -->
-
-<section id="contact">
-
-    <div class="final">
-
-        <div class="small">
-            END OF TRANSMISSION
-        </div>
-
         <h2>
-            LET'S
-            <span>BUILD.</span>
+          B.Tech CSE Student • Web Developer in Progress
         </h2>
 
         <p>
-
-            If you're interested in coding,
-            technology, projects or just
-            exchanging ideas,
-
-            start a transmission.
-
+          I'm a 3rd semester Computer Science Engineering student
+          exploring the world of web development, programming and
+          problem solving.
         </p>
 
-        <br><br>
+        <div class="buttons">
+          <a href="#about" class="btn">
+            Explore Me →
+          </a>
 
-        <a
-            href="mailto:yourmail@example.com"
-            class="btn"
-        >
-            SEND TRANSMISSION →
+          <a href="#contact" class="btn btn-outline">
+            Contact
+          </a>
+        </div>
+
+      </div>
+
+
+      <!-- 3D CUBE -->
+
+      <div class="cube-container">
+
+        <div class="cube">
+
+          <div class="face front">{"</>"}</div>
+          <div class="face back">C++</div>
+          <div class="face right">PY</div>
+          <div class="face left">DSA</div>
+          <div class="face top">⚡</div>
+          <div class="face bottom">LPB</div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         ABOUT
+    ========================== -->
+
+    <section id="about">
+
+      <h2 class="section-title">
+        About Me
+      </h2>
+
+      <div class="about-box">
+
+        <p>
+          I'm <span class="highlight">Likhith PB</span>, currently
+          pursuing my <span class="highlight">B.Tech in Computer
+          Science Engineering</span>.
+
+          I'm currently in my
+          <span class="highlight">3rd semester</span> and building
+          my foundation in programming and software development.
+
+          I know the basics of
+          <span class="highlight">Python</span> and I'm currently
+          learning <span class="highlight">Data Structures &
+          Algorithms using C++</span>.
+
+          At the same time, I'm exploring
+          <span class="highlight">HTML, CSS and JavaScript</span>
+          to become better at web development.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         SKILLS
+    ========================== -->
+
+    <section id="skills">
+
+      <h2 class="section-title">
+        What I Know
+      </h2>
+
+      <div class="cards">
+
+        <div class="card">
+
+          <div class="card-icon">🐍</div>
+
+          <h3>Python</h3>
+
+          <p>
+            I know the fundamentals of Python and I'm
+            continuing to improve my programming skills.
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-icon">🌐</div>
+
+          <h3>Web Development</h3>
+
+          <p>
+            Currently learning HTML, CSS and JavaScript
+            while experimenting with creative web designs.
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-icon">⚙️</div>
+
+          <h3>C++ & DSA</h3>
+
+          <p>
+            Currently learning Data Structures and Algorithms
+            using C++ and practicing problem solving.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         SKILL TAGS
+    ========================== -->
+
+    <section>
+
+      <h2 class="section-title">
+        My Tech Stack
+      </h2>
+
+      <div class="skills">
+
+        <div class="skill">HTML</div>
+        <div class="skill">CSS</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">Python</div>
+        <div class="skill">C++</div>
+        <div class="skill">DSA</div>
+        <div class="skill">Git</div>
+        <div class="skill">Problem Solving</div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CURRENTLY LEARNING
+    ========================== -->
+
+    <section id="learning">
+
+      <h2 class="section-title">
+        Currently Learning
+      </h2>
+
+      <div class="cards">
+
+        <div class="card">
+
+          <div class="card-icon">🧠</div>
+
+          <h3>Data Structures</h3>
+
+          <p>
+            Arrays, strings, linked lists, stacks, queues
+            and other important data structures.
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-icon">🔍</div>
+
+          <h3>Algorithms</h3>
+
+          <p>
+            Learning searching, sorting, recursion,
+            complexity analysis and algorithmic thinking.
+          </p>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-icon">💻</div>
+
+          <h3>Frontend Development</h3>
+
+          <p>
+            Exploring responsive layouts, animations,
+            JavaScript and interactive websites.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTACT
+    ========================== -->
+
+    <section id="contact" class="contact">
+
+      <h2 class="section-title">
+        Let's Connect
+      </h2>
+
+      <p>
+        I'm always interested in learning, building and
+        connecting with other developers.
+      </p>
+
+      <div class="buttons" style="justify-content:center;">
+
+        <a href="mailto:your-email@example.com" class="btn">
+          📧 Email Me
         </a>
 
-    </div>
+        <a href="#" class="btn btn-outline">
+          GitHub
+        </a>
 
-</section>
+      </div>
 
+    </section>
 
-<footer>
+  </main>
 
-    <div>
-        LIKHITH PB // CSE // 03
-    </div>
 
-    <div>
-        SYSTEM_STATUS:
-        <span>ONLINE</span>
-    </div>
+  <!-- =========================
+       FOOTER
+  ========================== -->
 
-</footer>
+  <footer>
 
+    Built with ❤️ by
+    <span>Likhith PB</span>
+    <br><br>
 
-<script>
+    © 2026 Likhith PB • CSE Student
 
-/* =========================================
-   PARTICLE BACKGROUND
-========================================= */
-
-const canvas =
-    document.getElementById("canvas");
-
-const ctx =
-    canvas.getContext("2d");
-
-let particles = [];
-
-function resize(){
-
-    canvas.width =
-        window.innerWidth;
-
-    canvas.height =
-        window.innerHeight;
-
-}
-
-resize();
-
-window.addEventListener(
-    "resize",
-    resize
-);
-
-
-/* create particles */
-
-for(let i=0;i<100;i++){
-
-    particles.push({
-
-        x:Math.random()*innerWidth,
-
-        y:Math.random()*innerHeight,
-
-        size:
-            Math.random()*1.8+.3,
-
-        speed:
-            Math.random()*.35+.05,
-
-        alpha:
-            Math.random()*.6+.1
-
-    });
-
-}
-
-
-function animate(){
-
-    ctx.fillStyle =
-        "#010303";
-
-    ctx.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-    particles.forEach(p=>{
-
-        p.y -= p.speed;
-
-        if(p.y<0){
-
-            p.y =
-                canvas.height;
-
-            p.x =
-                Math.random()*
-                canvas.width;
-
-        }
-
-
-        ctx.beginPath();
-
-        ctx.arc(
-            p.x,
-            p.y,
-            p.size,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fillStyle =
-            `rgba(
-                0,
-                255,
-                136,
-                ${p.alpha}
-            )`;
-
-        ctx.fill();
-
-
-    });
-
-
-    requestAnimationFrame(
-        animate
-    );
-
-}
-
-animate();
-
-
-/* =========================================
-   3D MOUSE CORE
-========================================= */
-
-const scene =
-    document.getElementById(
-        "coreScene"
-    );
-
-
-document.addEventListener(
-    "mousemove",
-    e=>{
-
-        if(innerWidth<900)
-            return;
-
-
-        const x =
-            (e.clientX /
-            innerWidth -
-            .5);
-
-        const y =
-            (e.clientY /
-            innerHeight -
-            .5);
-
-
-        scene.style.transform =
-            `
-            rotateX(${-y*12}deg)
-            rotateY(${x*15}deg)
-            `;
-    }
-);
-
-
-/* =========================================
-   SKILL CARD TILT
-========================================= */
-
-document
-.querySelectorAll(".skill")
-.forEach(card=>{
-
-    card.addEventListener(
-        "mousemove",
-        e=>{
-
-            const r =
-                card.getBoundingClientRect();
-
-            const x =
-                e.clientX-r.left;
-
-            const y =
-                e.clientY-r.top;
-
-            const rx =
-                ((y/r.height)-.5)*-8;
-
-            const ry =
-                ((x/r.width)-.5)*8;
-
-
-            card.style.transform =
-                `
-                perspective(700px)
-                rotateX(${rx}deg)
-                rotateY(${ry}deg)
-                translateY(-8px)
-                `;
-
-        }
-    );
-
-
-    card.addEventListener(
-        "mouseleave",
-        ()=>{
-
-            card.style.transform="";
-
-        }
-    );
-
-});
-
-
-/* =========================================
-   TERMINAL TYPING EFFECT
-========================================= */
-
-const commands = [
-    "build_future",
-    "learn_dsa",
-    "create_website",
-    "solve_problem",
-    "keep_learning"
-];
-
-let commandIndex = 0;
-
-const cursor =
-    document.querySelector(".command-line");
-
-
-setInterval(()=>{
-
-    commandIndex =
-        (commandIndex+1) %
-        commands.length;
-
-    cursor.innerHTML =
-        `
-        <span>likhith@dev:~$</span>
-        ${commands[commandIndex]}
-        <span class="cursor"></span>
-        `;
-
-},3000);
-
-
-/* =========================================
-   RANDOM GLITCH
-========================================= */
-
-const title =
-    document.querySelector(".glitch");
-
-
-setInterval(()=>{
-
-    if(Math.random()>.7){
-
-        title.style.transform =
-            `translate(
-                ${Math.random()*6-3}px,
-                ${Math.random()*4-2}px
-            )`;
-
-        setTimeout(()=>{
-
-            title.style.transform="";
-
-        },100);
-
-    }
-
-},1300);
-
-</script>
+  </footer>
 
 </body>
 </html>

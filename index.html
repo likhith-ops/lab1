@@ -1,14 +1,86 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Likhith PB | CSE Student & Developer</title>
+  <title>Likhith PB | 3D Portfolio</title>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+    /* =========================
+       THEME VARIABLES
+    ========================== */
+
+    :root {
+      --bg: #05070d;
+      --bg2: #0a0f1c;
+      --card: rgba(255,255,255,0.055);
+      --card-hover: rgba(255,255,255,0.09);
+
+      --primary: #00f5a0;
+      --secondary: #00d9ff;
+      --accent: #8b5cf6;
+
+      --text: #ffffff;
+      --muted: #8994a8;
+
+      --border: rgba(255,255,255,0.1);
+
+      --shadow:
+        0 25px 60px rgba(0,0,0,0.45);
+
+      --glow:
+        0 0 35px rgba(0,245,160,0.25);
+    }
+
+    /* =========================
+       THEMES
+    ========================== */
+
+    body.blue {
+      --primary: #00b7ff;
+      --secondary: #6366f1;
+      --accent: #a855f7;
+      --glow: 0 0 35px rgba(0,183,255,0.3);
+    }
+
+    body.purple {
+      --primary: #c084fc;
+      --secondary: #8b5cf6;
+      --accent: #ec4899;
+      --glow: 0 0 35px rgba(168,85,247,0.3);
+    }
+
+    body.red {
+      --primary: #ff4d6d;
+      --secondary: #ff8a00;
+      --accent: #ff006e;
+      --glow: 0 0 35px rgba(255,77,109,0.3);
+    }
+
+    body.light {
+      --bg: #eef2ff;
+      --bg2: #ffffff;
+      --card: rgba(255,255,255,0.65);
+      --card-hover: rgba(255,255,255,0.9);
+
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --accent: #db2777;
+
+      --text: #101827;
+      --muted: #64748b;
+      --border: rgba(0,0,0,0.1);
+
+      --shadow:
+        0 25px 60px rgba(37,99,235,0.15);
+    }
+
+    /* =========================
+       RESET
+    ========================== */
 
     * {
       margin: 0;
@@ -17,109 +89,233 @@
       scroll-behavior: smooth;
     }
 
-    :root {
-      --bg: #080b12;
-      --card: #101520;
-      --primary: #00f5a0;
-      --secondary: #00d9f5;
-      --text: #f2f5f7;
-      --muted: #8b95a7;
-      --border: rgba(255, 255, 255, 0.08);
-    }
-
     body {
-      background: var(--bg);
+      background:
+        radial-gradient(
+          circle at 20% 20%,
+          color-mix(in srgb, var(--primary) 12%, transparent),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 80% 70%,
+          color-mix(in srgb, var(--secondary) 12%, transparent),
+          transparent 30%
+        ),
+        var(--bg);
+
       color: var(--text);
       font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
+
+      transition:
+        background 0.5s,
+        color 0.5s;
     }
 
-    /* Background Glow */
-    body::before {
-      content: "";
+    /* =========================
+       3D BACKGROUND
+    ========================== */
+
+    .background {
       position: fixed;
-      width: 500px;
-      height: 500px;
+      inset: 0;
+      overflow: hidden;
+      z-index: -5;
+      perspective: 1000px;
+    }
+
+    .grid {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      left: -50%;
+      top: 20%;
+
+      background-image:
+        linear-gradient(
+          rgba(255,255,255,0.035) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,0.035) 1px,
+          transparent 1px
+        );
+
+      background-size: 50px 50px;
+
+      transform:
+        perspective(500px)
+        rotateX(60deg);
+
+      animation: gridMove 12s linear infinite;
+    }
+
+    @keyframes gridMove {
+      from {
+        transform:
+          perspective(500px)
+          rotateX(60deg)
+          translateY(0);
+      }
+
+      to {
+        transform:
+          perspective(500px)
+          rotateX(60deg)
+          translateY(50px);
+      }
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(2px);
+      opacity: 0.4;
+      animation: orbFloat 8s ease-in-out infinite;
+    }
+
+    .orb1 {
+      width: 250px;
+      height: 250px;
       background: var(--primary);
-      filter: blur(180px);
-      opacity: 0.08;
-      top: -200px;
-      left: -200px;
-      z-index: -1;
+      top: 10%;
+      left: 5%;
+      box-shadow: 0 0 100px var(--primary);
     }
 
-    body::after {
-      content: "";
-      position: fixed;
-      width: 500px;
-      height: 500px;
+    .orb2 {
+      width: 180px;
+      height: 180px;
       background: var(--secondary);
-      filter: blur(180px);
-      opacity: 0.07;
-      bottom: -200px;
-      right: -200px;
-      z-index: -1;
+      right: 10%;
+      top: 25%;
+      animation-delay: 2s;
+      box-shadow: 0 0 100px var(--secondary);
     }
 
-    /* Navbar */
+    .orb3 {
+      width: 300px;
+      height: 300px;
+      background: var(--accent);
+      right: 20%;
+      bottom: -100px;
+      animation-delay: 4s;
+      box-shadow: 0 0 120px var(--accent);
+    }
+
+    @keyframes orbFloat {
+      0%,100% {
+        transform: translate3d(0,0,0);
+      }
+
+      50% {
+        transform: translate3d(40px,-50px,100px);
+      }
+    }
+
+    /* =========================
+       NAVBAR
+    ========================== */
+
     nav {
-      width: 100%;
       position: fixed;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(15px);
-      background: rgba(8, 11, 18, 0.75);
-      border-bottom: 1px solid var(--border);
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      width: min(1100px,92%);
+
+      padding: 12px 18px;
+
+      background: var(--card);
+      border: 1px solid var(--border);
+
+      backdrop-filter: blur(20px);
+
+      border-radius: 18px;
+
+      z-index: 1000;
+
+      box-shadow: var(--shadow);
     }
 
     .nav-container {
-      max-width: 1100px;
-      margin: auto;
-      height: 70px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 0 25px;
+      justify-content: space-between;
     }
 
     .logo {
-      font-family: 'Fira Code', monospace;
-      color: var(--primary);
-      font-size: 20px;
+      font-family: 'Fira Code';
       font-weight: 600;
+      color: var(--primary);
     }
 
     .logo span {
-      color: white;
+      color: var(--text);
     }
 
     nav ul {
-      display: flex;
       list-style: none;
-      gap: 30px;
+      display: flex;
+      gap: 25px;
     }
 
     nav a {
-      color: var(--muted);
       text-decoration: none;
-      font-size: 14px;
+      color: var(--muted);
+      font-size: 13px;
       transition: 0.3s;
     }
 
     nav a:hover {
       color: var(--primary);
+      text-shadow: 0 0 15px var(--primary);
     }
 
-    /* Hero */
+    /* =========================
+       THEME BUTTON
+    ========================== */
+
+    .theme-btn {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+
+      width: 40px;
+      height: 40px;
+
+      border-radius: 50%;
+
+      cursor: pointer;
+
+      transition: 0.3s;
+    }
+
+    .theme-btn:hover {
+      transform: rotate(25deg) scale(1.1);
+      box-shadow: var(--glow);
+    }
+
+    /* =========================
+       HERO
+    ========================== */
+
     .hero {
       min-height: 100vh;
-      max-width: 1100px;
+
+      max-width: 1150px;
       margin: auto;
-      padding: 150px 25px 80px;
+
+      padding:
+        150px 25px 80px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 50px;
+
+      gap: 70px;
     }
 
     .hero-content {
@@ -128,89 +324,188 @@
 
     .tag {
       display: inline-block;
-      color: var(--primary);
-      background: rgba(0, 245, 160, 0.08);
-      border: 1px solid rgba(0, 245, 160, 0.2);
+
       padding: 8px 15px;
-      border-radius: 30px;
-      font-family: 'Fira Code', monospace;
+
+      border-radius: 50px;
+
+      border: 1px solid var(--border);
+
+      background: var(--card);
+
+      color: var(--primary);
+
+      font-family: 'Fira Code';
+
       font-size: 13px;
-      margin-bottom: 25px;
+
+      box-shadow: var(--glow);
     }
 
     h1 {
-      font-size: clamp(45px, 7vw, 78px);
+      font-size: clamp(45px,7vw,80px);
       line-height: 1.05;
-      margin-bottom: 20px;
+
+      margin: 25px 0;
+
+      letter-spacing: -3px;
     }
 
-    h1 .green {
-      color: var(--primary);
+    h1 .gradient {
+      background:
+        linear-gradient(
+          90deg,
+          var(--primary),
+          var(--secondary),
+          var(--accent)
+        );
+
+      -webkit-background-clip: text;
+      color: transparent;
+
+      background-size: 200%;
+
+      animation: gradientMove 5s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0%,100% {
+        background-position: 0%;
+      }
+
+      50% {
+        background-position: 100%;
+      }
     }
 
     .hero p {
       color: var(--muted);
+
       font-size: 17px;
-      line-height: 1.8;
-      max-width: 600px;
+
+      line-height: 1.9;
     }
+
+    /* =========================
+       BUTTONS
+    ========================== */
 
     .buttons {
       display: flex;
       gap: 15px;
+
       margin-top: 35px;
     }
 
     .btn {
       text-decoration: none;
-      padding: 13px 23px;
-      border-radius: 8px;
-      font-size: 14px;
+
+      padding: 14px 23px;
+
+      border-radius: 10px;
+
+      font-size: 13px;
       font-weight: 600;
+
       transition: 0.3s;
     }
 
-    .btn-primary {
-      background: var(--primary);
-      color: #06110c;
+    .primary-btn {
+      color: #000;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--secondary)
+        );
+
+      box-shadow: var(--glow);
     }
 
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0, 245, 160, 0.2);
+    .primary-btn:hover {
+      transform:
+        translateY(-5px)
+        scale(1.03);
+
+      box-shadow:
+        0 15px 40px
+        color-mix(
+          in srgb,
+          var(--primary) 30%,
+          transparent
+        );
     }
 
-    .btn-outline {
-      color: white;
+    .outline-btn {
+      color: var(--text);
+
       border: 1px solid var(--border);
+
+      background: var(--card);
+
+      backdrop-filter: blur(10px);
     }
 
-    .btn-outline:hover {
+    .outline-btn:hover {
       border-color: var(--primary);
-      color: var(--primary);
+      transform: translateY(-5px);
     }
 
-    /* Code Card */
+    /* =========================
+       3D CODE CARD
+    ========================== */
+
+    .scene {
+      perspective: 1000px;
+    }
+
     .code-card {
-      width: 370px;
-      background: rgba(16, 21, 32, 0.85);
+      width: 390px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.1),
+          rgba(255,255,255,0.025)
+        );
+
       border: 1px solid var(--border);
-      border-radius: 15px;
+
+      border-radius: 20px;
+
       overflow: hidden;
-      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
-      animation: float 4s ease-in-out infinite;
+
+      backdrop-filter: blur(20px);
+
+      box-shadow:
+        25px 25px 70px rgba(0,0,0,0.45),
+        inset 0 1px rgba(255,255,255,0.1);
+
+      transform-style: preserve-3d;
+
+      transition: transform 0.15s ease;
+
+      animation: cardFloat 5s ease-in-out infinite;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
+    @keyframes cardFloat {
+      0%,100% {
+        transform: translateY(0) rotateY(-5deg);
+      }
+
+      50% {
+        transform: translateY(-18px) rotateY(5deg);
+      }
     }
 
     .code-top {
-      padding: 13px 16px;
-      border-bottom: 1px solid var(--border);
+      padding: 15px;
+
       display: flex;
-      gap: 7px;
+      gap: 8px;
+
+      border-bottom: 1px solid var(--border);
     }
 
     .dot {
@@ -219,99 +514,213 @@
       border-radius: 50%;
     }
 
-    .red { background: #ff5f57; }
-    .yellow { background: #febc2e; }
-    .green-dot { background: #28c840; }
+    .red {
+      background: #ff5f57;
+    }
+
+    .yellow {
+      background: #ffbd2e;
+    }
+
+    .green {
+      background: #28c840;
+    }
 
     pre {
       padding: 25px;
-      font-family: 'Fira Code', monospace;
-      font-size: 13px;
-      line-height: 1.9;
+
+      font-family: 'Fira Code';
+
+      font-size: 12px;
+
+      line-height: 2;
+
       color: #c9d1d9;
-      overflow-x: auto;
     }
 
-    .keyword { color: #ff7b72; }
-    .variable { color: #79c0ff; }
-    .string { color: #a5d6ff; }
-    .comment { color: #6e7681; }
+    .keyword {
+      color: #ff7b72;
+    }
 
-    /* Sections */
+    .variable {
+      color: #79c0ff;
+    }
+
+    .string {
+      color: #a5d6ff;
+    }
+
+    .comment {
+      color: #6e7681;
+    }
+
+    /* =========================
+       SECTIONS
+    ========================== */
+
     section {
-      max-width: 1100px;
+      max-width: 1150px;
+
       margin: auto;
+
       padding: 100px 25px;
     }
 
     .section-title {
-      margin-bottom: 50px;
+      margin-bottom: 45px;
     }
 
     .section-title span {
       color: var(--primary);
-      font-family: 'Fira Code', monospace;
-      font-size: 14px;
+
+      font-family: 'Fira Code';
+
+      font-size: 13px;
     }
 
     .section-title h2 {
-      font-size: 38px;
+      font-size: 40px;
+
       margin-top: 8px;
     }
 
-    /* About */
-    .about-grid {
+    /* =========================
+       3D CARDS
+    ========================== */
+
+    .cards {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+
+      grid-template-columns:
+        repeat(2,1fr);
+
       gap: 25px;
     }
 
-    .about-card {
-      background: var(--card);
-      border: 1px solid var(--border);
+    .card {
+      position: relative;
+
       padding: 30px;
-      border-radius: 15px;
-      transition: 0.3s;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.08),
+          rgba(255,255,255,0.025)
+        );
+
+      border: 1px solid var(--border);
+
+      border-radius: 18px;
+
+      backdrop-filter: blur(15px);
+
+      transform-style: preserve-3d;
+
+      transition:
+        transform 0.25s,
+        border 0.25s;
+
+      overflow: hidden;
     }
 
-    .about-card:hover {
-      border-color: rgba(0, 245, 160, 0.3);
-      transform: translateY(-5px);
+    .card::before {
+      content: "";
+
+      position: absolute;
+
+      width: 150px;
+      height: 150px;
+
+      background: var(--primary);
+
+      filter: blur(90px);
+
+      opacity: 0.08;
+
+      top: -70px;
+      right: -70px;
     }
 
-    .about-card h3 {
-      margin-bottom: 15px;
+    .card:hover {
+      transform:
+        translateY(-10px)
+        rotateX(4deg)
+        rotateY(-4deg);
+
+      border-color:
+        color-mix(
+          in srgb,
+          var(--primary) 40%,
+          transparent
+        );
+
+      box-shadow: var(--glow);
+    }
+
+    .card h3 {
       color: var(--primary);
+      margin-bottom: 12px;
     }
 
-    .about-card p {
+    .card p {
       color: var(--muted);
       line-height: 1.8;
     }
 
-    /* Skills */
+    /* =========================
+       SKILLS
+    ========================== */
+
     .skills {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+
+      grid-template-columns:
+        repeat(3,1fr);
+
       gap: 20px;
     }
 
     .skill {
-      background: var(--card);
-      border: 1px solid var(--border);
       padding: 25px;
-      border-radius: 14px;
+
+      background: var(--card);
+
+      border: 1px solid var(--border);
+
+      border-radius: 16px;
+
+      backdrop-filter: blur(15px);
+
       transition: 0.3s;
+
+      transform-style: preserve-3d;
     }
 
     .skill:hover {
-      transform: translateY(-7px);
+      transform:
+        translateY(-10px)
+        translateZ(20px);
+
+      box-shadow: var(--glow);
+
       border-color: var(--primary);
     }
 
     .skill-icon {
-      font-size: 30px;
+      font-size: 32px;
+
       margin-bottom: 15px;
+
+      filter:
+        drop-shadow(
+          0 0 12px
+          color-mix(
+            in srgb,
+            var(--primary) 50%,
+            transparent
+          )
+        );
     }
 
     .skill h3 {
@@ -320,52 +729,111 @@
 
     .skill p {
       color: var(--muted);
+
       font-size: 13px;
-      line-height: 1.6;
+
+      line-height: 1.7;
     }
 
-    .level {
+    .bar {
       height: 5px;
-      background: #202735;
+
+      margin-top: 20px;
+
+      background: rgba(255,255,255,0.08);
+
       border-radius: 10px;
-      margin-top: 18px;
+
       overflow: hidden;
     }
 
-    .level span {
+    .bar span {
       display: block;
+
       height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--primary),
+          var(--secondary)
+        );
+
       border-radius: 10px;
+
+      box-shadow:
+        0 0 15px var(--primary);
     }
 
-    /* Journey */
+    /* =========================
+       JOURNEY
+    ========================== */
+
     .timeline {
-      border-left: 2px solid rgba(0, 245, 160, 0.2);
-      padding-left: 30px;
+      position: relative;
+
+      border-left:
+        2px solid
+        color-mix(
+          in srgb,
+          var(--primary) 25%,
+          transparent
+        );
+
+      padding-left: 35px;
     }
 
     .timeline-item {
       position: relative;
-      margin-bottom: 35px;
+
+      margin-bottom: 40px;
+
+      padding: 25px;
+
+      background: var(--card);
+
+      border: 1px solid var(--border);
+
+      border-radius: 15px;
+
+      backdrop-filter: blur(15px);
+
+      transition: 0.3s;
+    }
+
+    .timeline-item:hover {
+      transform:
+        translateX(10px)
+        translateZ(20px);
+
+      box-shadow: var(--glow);
     }
 
     .timeline-item::before {
       content: "";
+
       position: absolute;
-      width: 12px;
-      height: 12px;
-      background: var(--primary);
+
+      width: 13px;
+      height: 13px;
+
       border-radius: 50%;
-      left: -37px;
-      top: 5px;
-      box-shadow: 0 0 15px var(--primary);
+
+      background: var(--primary);
+
+      left: -43px;
+      top: 30px;
+
+      box-shadow:
+        0 0 20px var(--primary);
     }
 
     .timeline-item span {
       color: var(--primary);
-      font-family: 'Fira Code', monospace;
-      font-size: 13px;
+
+      font-family: 'Fira Code';
+
+      font-size: 12px;
     }
 
     .timeline-item h3 {
@@ -374,38 +842,68 @@
 
     .timeline-item p {
       color: var(--muted);
+
       line-height: 1.7;
     }
 
-    /* Contact */
+    /* =========================
+       CONTACT
+    ========================== */
+
     .contact {
       text-align: center;
-      background: linear-gradient(
-        135deg,
-        rgba(0, 245, 160, 0.06),
-        rgba(0, 217, 245, 0.04)
-      );
+
+      padding: 80px 30px;
+
+      border-radius: 25px;
+
+      background:
+        linear-gradient(
+          135deg,
+          color-mix(
+            in srgb,
+            var(--primary) 8%,
+            transparent
+          ),
+          color-mix(
+            in srgb,
+            var(--secondary) 8%,
+            transparent
+          )
+        );
+
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 70px 30px;
+
+      box-shadow: var(--shadow);
+
+      backdrop-filter: blur(20px);
     }
 
     .contact h2 {
-      font-size: 40px;
+      font-size: 42px;
+
       margin-bottom: 15px;
     }
 
     .contact p {
       color: var(--muted);
+
       margin-bottom: 30px;
     }
 
-    /* Footer */
+    /* =========================
+       FOOTER
+    ========================== */
+
     footer {
       text-align: center;
-      padding: 30px;
-      border-top: 1px solid var(--border);
+
+      padding: 35px;
+
       color: var(--muted);
+
+      border-top: 1px solid var(--border);
+
       font-size: 13px;
     }
 
@@ -413,14 +911,19 @@
       color: var(--primary);
     }
 
-    /* Responsive */
-    @media (max-width: 800px) {
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media(max-width:850px) {
+
       nav ul {
         display: none;
       }
 
       .hero {
         flex-direction: column;
+
         align-items: flex-start;
       }
 
@@ -428,22 +931,24 @@
         width: 100%;
       }
 
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-
       .skills {
         grid-template-columns: 1fr;
       }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
     }
 
-    @media (max-width: 500px) {
-      .hero {
-        padding-top: 120px;
-      }
+    @media(max-width:500px) {
 
       h1 {
         font-size: 45px;
+      }
+
+      .section-title h2 {
+        font-size: 30px;
       }
 
       .buttons {
@@ -453,16 +958,41 @@
       .btn {
         text-align: center;
       }
+
     }
+
   </style>
 </head>
 
+
 <body>
 
-  <!-- Navigation -->
+  <!-- =========================
+       3D BACKGROUND
+  ========================== -->
+
+  <div class="background">
+
+    <div class="grid"></div>
+
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+  </div>
+
+
+  <!-- =========================
+       NAVBAR
+  ========================== -->
+
   <nav>
+
     <div class="nav-container">
-      <div class="logo">&lt;<span>Likhith</span>PB /&gt;</div>
+
+      <div class="logo">
+        &lt;<span>Likhith</span>PB /&gt;
+      </div>
 
       <ul>
         <li><a href="#home">Home</a></li>
@@ -471,12 +1001,26 @@
         <li><a href="#journey">Journey</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
+
+      <button
+        class="theme-btn"
+        onclick="changeTheme()"
+        title="Change Theme"
+      >
+        🎨
+      </button>
+
     </div>
+
   </nav>
 
 
-  <!-- Hero -->
+  <!-- =========================
+       HERO
+  ========================== -->
+
   <main id="home">
+
     <div class="hero">
 
       <div class="hero-content">
@@ -486,107 +1030,166 @@
         </div>
 
         <h1>
-          Hi, I'm <span class="green">Likhith PB.</span>
+          Hi, I'm
+          <span class="gradient">
+            Likhith PB.
+          </span>
         </h1>
 
         <p>
-          I'm a 3rd semester Computer Science Engineering student
-          passionate about building things for the web and solving
-          problems with code.
+          I'm a 3rd semester Computer Science Engineering
+          student exploring the world of web development,
+          programming and problem solving.
         </p>
 
         <div class="buttons">
-          <a href="#skills" class="btn btn-primary">
+
+          <a
+            href="#skills"
+            class="btn primary-btn"
+          >
             Explore My Skills →
           </a>
 
-          <a href="#contact" class="btn btn-outline">
+          <a
+            href="#contact"
+            class="btn outline-btn"
+          >
             Let's Connect
           </a>
+
         </div>
 
       </div>
 
 
-      <!-- Code Window -->
-      <div class="code-card">
+      <!-- 3D CODE WINDOW -->
 
-        <div class="code-top">
-          <div class="dot red"></div>
-          <div class="dot yellow"></div>
-          <div class="dot green-dot"></div>
-        </div>
+      <div class="scene">
 
-        <pre><span class="keyword">class</span> <span class="variable">Developer</span> {
+        <div class="code-card" id="codeCard">
 
-  <span class="variable">name</span> = <span class="string">"Likhith PB"</span>;
-  <span class="variable">semester</span> = <span class="string">"3rd"</span>;
-  <span class="variable">branch</span> = <span class="string">"CSE"</span>;
+          <div class="code-top">
+
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+
+          </div>
+
+<pre>
+<span class="keyword">class</span>
+<span class="variable">Developer</span> {
+
+  <span class="variable">name</span> =
+    <span class="string">"Likhith PB"</span>;
+
+  <span class="variable">semester</span> =
+    <span class="string">"3rd"</span>;
+
+  <span class="variable">branch</span> =
+    <span class="string">"CSE"</span>;
 
   <span class="variable">learning</span> = [
+
     <span class="string">"Web Development"</span>,
+
     <span class="string">"DSA in C++"</span>,
+
     <span class="string">"Python"</span>
+
   ];
 
   <span class="keyword">while</span> (<span class="variable">alive</span>) {
+
     <span class="variable">learn</span>();
+
     <span class="variable">build</span>();
+
     <span class="variable">repeat</span>();
+
   }
-}</pre>
+}
+</pre>
+
+        </div>
 
       </div>
 
     </div>
+
   </main>
 
 
-  <!-- About -->
+  <!-- =========================
+       ABOUT
+  ========================== -->
+
   <section id="about">
 
     <div class="section-title">
+
       <span>01 / ABOUT ME</span>
-      <h2>A little about me.</h2>
+
+      <h2>
+        Who am I?
+      </h2>
+
     </div>
 
-    <div class="about-grid">
 
-      <div class="about-card">
-        <h3>🎓 Student</h3>
+    <div class="cards">
+
+      <div class="card">
+
+        <h3>🎓 CSE Student</h3>
+
         <p>
-          I'm currently pursuing my BTech in Computer Science Engineering
-          and I'm in my 3rd semester. College is where I'm building my
-          foundation in computer science and exploring different areas
-          of technology.
+          I'm currently pursuing my BTech in Computer
+          Science Engineering and I'm in my 3rd semester.
+          I'm building my fundamentals in computer science
+          and exploring different areas of technology.
         </p>
+
       </div>
 
-      <div class="about-card">
-        <h3>💻 Developer in Progress</h3>
+
+      <div class="card">
+
+        <h3>🌐 Web Developer in Progress</h3>
+
         <p>
-          I'm currently learning web development and exploring how
-          HTML, CSS and JavaScript come together to create interactive
-          websites and applications.
+          I'm currently learning web development and
+          exploring how HTML, CSS and JavaScript can be
+          used to create beautiful and interactive websites.
         </p>
+
       </div>
 
-      <div class="about-card">
-        <h3>🧠 Problem Solver</h3>
+
+      <div class="card">
+
+        <h3>🧠 DSA Learner</h3>
+
         <p>
-          I'm learning Data Structures and Algorithms using C++,
-          focusing on improving my problem-solving skills one problem
-          at a time.
+          I'm currently learning Data Structures and
+          Algorithms using C++. My goal is to become
+          better at logical thinking and problem solving.
         </p>
+
       </div>
 
-      <div class="about-card">
+
+      <div class="card">
+
         <h3>🐍 Python Basics</h3>
+
         <p>
-          I have a basic understanding of Python and I'm continuing
-          to improve my programming fundamentals through practice
-          and small projects.
+          I know the basics of Python and I'm continuing
+          to strengthen my programming fundamentals
+          through practice.
         </p>
+
       </div>
 
     </div>
@@ -594,162 +1197,256 @@
   </section>
 
 
-  <!-- Skills -->
+  <!-- =========================
+       SKILLS
+  ========================== -->
+
   <section id="skills">
 
     <div class="section-title">
+
       <span>02 / SKILLS</span>
-      <h2>What I'm learning.</h2>
+
+      <h2>
+        My current stack.
+      </h2>
+
     </div>
+
 
     <div class="skills">
 
+
       <div class="skill">
-        <div class="skill-icon">🌐</div>
-        <h3>HTML & CSS</h3>
+
+        <div class="skill-icon">
+          🌐
+        </div>
+
+        <h3>HTML</h3>
+
         <p>
-          Learning to build clean, responsive and modern websites.
+          Building the structure of modern websites.
         </p>
 
-        <div class="level">
-          <span style="width: 75%"></span>
+        <div class="bar">
+          <span style="width:75%"></span>
         </div>
+
       </div>
 
 
       <div class="skill">
-        <div class="skill-icon">⚡</div>
+
+        <div class="skill-icon">
+          🎨
+        </div>
+
+        <h3>CSS</h3>
+
+        <p>
+          Creating responsive layouts and visual designs.
+        </p>
+
+        <div class="bar">
+          <span style="width:65%"></span>
+        </div>
+
+      </div>
+
+
+      <div class="skill">
+
+        <div class="skill-icon">
+          ⚡
+        </div>
+
         <h3>JavaScript</h3>
+
         <p>
-          Exploring the fundamentals of JavaScript and web interactions.
+          Learning the fundamentals of interactive websites.
         </p>
 
-        <div class="level">
-          <span style="width: 40%"></span>
+        <div class="bar">
+          <span style="width:40%"></span>
         </div>
+
       </div>
 
 
       <div class="skill">
-        <div class="skill-icon">⚙️</div>
+
+        <div class="skill-icon">
+          ⚙️
+        </div>
+
         <h3>C++</h3>
+
         <p>
-          Currently using C++ to learn Data Structures and Algorithms.
+          Currently using C++ for learning DSA.
         </p>
 
-        <div class="level">
-          <span style="width: 55%"></span>
+        <div class="bar">
+          <span style="width:55%"></span>
         </div>
+
       </div>
 
 
       <div class="skill">
-        <div class="skill-icon">🐍</div>
+
+        <div class="skill-icon">
+          🐍
+        </div>
+
         <h3>Python</h3>
+
         <p>
-          Comfortable with the basics and continuing to practice.
+          Comfortable with basic Python programming.
         </p>
 
-        <div class="level">
-          <span style="width: 45%"></span>
+        <div class="bar">
+          <span style="width:45%"></span>
         </div>
+
       </div>
 
 
       <div class="skill">
-        <div class="skill-icon">🧩</div>
+
+        <div class="skill-icon">
+          🧩
+        </div>
+
         <h3>DSA</h3>
+
         <p>
-          Currently learning algorithms, data structures and problem solving.
+          Currently learning algorithms and data structures.
         </p>
 
-        <div class="level">
-          <span style="width: 40%"></span>
+        <div class="bar">
+          <span style="width:40%"></span>
         </div>
+
       </div>
 
-
-      <div class="skill">
-        <div class="skill-icon">🚀</div>
-        <h3>Learning</h3>
-        <p>
-          Always curious, always experimenting and always building.
-        </p>
-
-        <div class="level">
-          <span style="width: 85%"></span>
-        </div>
-      </div>
 
     </div>
 
   </section>
 
 
-  <!-- Journey -->
+  <!-- =========================
+       JOURNEY
+  ========================== -->
+
   <section id="journey">
 
     <div class="section-title">
-      <span>03 / MY JOURNEY</span>
-      <h2>Currently building my foundation.</h2>
+
+      <span>03 / JOURNEY</span>
+
+      <h2>
+        My learning journey.
+      </h2>
+
     </div>
+
 
     <div class="timeline">
 
+
       <div class="timeline-item">
+
         <span>NOW</span>
-        <h3>3rd Semester — CSE</h3>
+
+        <h3>
+          3rd Semester — BTech CSE
+        </h3>
+
         <p>
-          Pursuing BTech in Computer Science Engineering and
-          strengthening my programming fundamentals.
+          Currently pursuing Computer Science Engineering
+          and strengthening my programming fundamentals.
         </p>
+
       </div>
 
-      <div class="timeline-item">
-        <span>LEARNING</span>
-        <h3>Data Structures & Algorithms</h3>
-        <p>
-          Currently learning DSA using C++ and practicing
-          problem-solving concepts.
-        </p>
-      </div>
 
       <div class="timeline-item">
+
+        <span>CURRENTLY LEARNING</span>
+
+        <h3>
+          DSA with C++
+        </h3>
+
+        <p>
+          Exploring data structures, algorithms and
+          problem-solving techniques using C++.
+        </p>
+
+      </div>
+
+
+      <div class="timeline-item">
+
         <span>EXPLORING</span>
-        <h3>Web Development</h3>
+
+        <h3>
+          Web Development
+        </h3>
+
         <p>
-          Learning HTML, CSS and JavaScript while creating
-          websites and experimenting with frontend development.
+          Learning HTML, CSS and JavaScript while
+          creating websites and experimenting with
+          frontend development.
         </p>
+
       </div>
 
+
       <div class="timeline-item">
+
         <span>FOUNDATION</span>
-        <h3>Python</h3>
+
+        <h3>
+          Python
+        </h3>
+
         <p>
-          Built a foundation in Python and learned the basics
-          of programming.
+          Learned the basics of Python and developed
+          my programming foundation.
         </p>
+
       </div>
+
 
     </div>
 
   </section>
 
 
-  <!-- Contact -->
+  <!-- =========================
+       CONTACT
+  ========================== -->
+
   <section id="contact">
 
     <div class="contact">
 
-      <h2>Let's build something. 🚀</h2>
+      <h2>
+        Let's build something. 🚀
+      </h2>
 
       <p>
-        I'm still learning, experimenting and improving every day.
-        This is just the beginning.
+        I'm learning, experimenting and improving
+        every day. This is only the beginning.
       </p>
 
-      <a href="mailto:yourmail@example.com" class="btn btn-primary">
+      <a
+        href="mailto:yourmail@example.com"
+        class="btn primary-btn"
+      >
         Say Hello →
       </a>
 
@@ -758,13 +1455,134 @@
   </section>
 
 
-  <!-- Footer -->
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
   <footer>
+
     <p>
-      Designed & built by <span>Likhith PB</span> ·
-      Keep learning. Keep building. 🚀
+      Designed & built by
+      <span>Likhith PB</span>
+      · Keep learning. Keep building. 🚀
     </p>
+
   </footer>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+
+  <script>
+
+    /* =========================
+       THEME SWITCHER
+    ========================== */
+
+    const themes = [
+      "",
+      "blue",
+      "purple",
+      "red",
+      "light"
+    ];
+
+    let themeIndex = 0;
+
+    function changeTheme() {
+
+      document.body.classList.remove(
+        "blue",
+        "purple",
+        "red",
+        "light"
+      );
+
+      themeIndex++;
+
+      if (themeIndex >= themes.length) {
+        themeIndex = 0;
+      }
+
+      const selectedTheme =
+        themes[themeIndex];
+
+      if (selectedTheme !== "") {
+        document.body.classList.add(
+          selectedTheme
+        );
+      }
+
+      localStorage.setItem(
+        "theme",
+        selectedTheme
+      );
+    }
+
+
+    /* Load saved theme */
+
+    const savedTheme =
+      localStorage.getItem("theme");
+
+    if (savedTheme) {
+
+      document.body.classList.add(
+        savedTheme
+      );
+
+      themeIndex =
+        themes.indexOf(savedTheme);
+
+    }
+
+
+    /* =========================
+       3D MOUSE TILT
+    ========================== */
+
+    const codeCard =
+      document.getElementById("codeCard");
+
+    document.addEventListener(
+      "mousemove",
+      (event) => {
+
+        if (window.innerWidth < 850)
+          return;
+
+        const x =
+          (window.innerWidth / 2 -
+          event.clientX) / 35;
+
+        const y =
+          (window.innerHeight / 2 -
+          event.clientY) / 35;
+
+        codeCard.style.transform =
+          `rotateY(${x}deg)
+           rotateX(${-y}deg)
+           translateY(-5px)`;
+
+      }
+    );
+
+
+    /* Reset card */
+
+    document.addEventListener(
+      "mouseleave",
+      () => {
+
+        codeCard.style.transform =
+          "rotateY(0deg) rotateX(0deg)";
+
+      }
+    );
+
+
+  </script>
 
 </body>
 </html>

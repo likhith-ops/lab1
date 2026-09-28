@@ -4,22 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>LIKHITH PB // SYSTEM</title>
+<title>LIKHITH PB // CYBER CORE</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap');
 
 :root{
-    --green:#00ff66;
-    --green2:#00c853;
-    --dark:#020504;
-    --black:#000;
-    --red:#ff1744;
+    --green:#00ff88;
     --cyan:#00eaff;
+    --red:#ff164e;
     --purple:#8b5cf6;
-    --text:#d9ffe6;
-    --muted:#668271;
-    --border:rgba(0,255,102,.18);
+    --bg:#010303;
+    --panel:rgba(4,12,9,.78);
+    --line:rgba(0,255,136,.16);
+    --text:#d9ffe9;
+    --muted:#557565;
 }
 
 *{
@@ -33,158 +32,118 @@ html{
 }
 
 body{
-    background:#000;
+    background:var(--bg);
     color:var(--text);
     font-family:'Share Tech Mono',monospace;
     overflow-x:hidden;
 }
 
-/* =====================================================
-   GLOBAL
-===================================================== */
+/* =========================================
+   BACKGROUND
+========================================= */
 
-body::before{
-    content:"";
-
+#canvas{
     position:fixed;
     inset:0;
-
-    pointer-events:none;
-
-    z-index:9999;
-
-    background:
-        repeating-linear-gradient(
-            0deg,
-            rgba(0,255,100,.025) 0px,
-            rgba(0,255,100,.025) 1px,
-            transparent 1px,
-            transparent 4px
-        );
-
-    mix-blend-mode:screen;
-}
-
-body::after{
-    content:"";
-
-    position:fixed;
-    inset:0;
-
-    pointer-events:none;
-
-    z-index:9998;
-
-    box-shadow:
-        inset 0 0 150px #000,
-        inset 0 0 40px rgba(0,255,100,.08);
-}
-
-/* =====================================================
-   MATRIX BACKGROUND
-===================================================== */
-
-#matrix{
-    position:fixed;
-    inset:0;
-
     width:100%;
     height:100%;
-
-    z-index:-20;
-
-    opacity:.25;
+    z-index:-10;
 }
 
-/* =====================================================
-   GRID
-===================================================== */
-
-.grid{
+.noise{
     position:fixed;
     inset:0;
+    z-index:100;
+    pointer-events:none;
+    opacity:.04;
 
-    z-index:-10;
-
-    background-image:
-        linear-gradient(
-            rgba(0,255,100,.04) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(0,255,100,.04) 1px,
-            transparent 1px
-        );
-
-    background-size:50px 50px;
-
-    transform:
-        perspective(500px)
-        rotateX(60deg)
-        scale(2);
-
-    transform-origin:center bottom;
-
-    opacity:.18;
+    background-image:url(
+        "data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E"
+    );
 }
 
-/* =====================================================
-   NAVBAR
-===================================================== */
+.scanlines{
+    position:fixed;
+    inset:0;
+    z-index:99;
+    pointer-events:none;
 
-.nav{
+    background:
+    repeating-linear-gradient(
+        0deg,
+        transparent 0,
+        transparent 3px,
+        rgba(0,255,130,.025) 4px
+    );
+}
+
+.vignette{
+    position:fixed;
+    inset:0;
+    z-index:98;
+    pointer-events:none;
+
+    box-shadow:
+        inset 0 0 180px #000,
+        inset 0 0 70px rgba(0,255,130,.04);
+}
+
+/* =========================================
+   NAV
+========================================= */
+
+nav{
     position:fixed;
 
-    top:15px;
+    width:min(1250px,94%);
+
+    top:18px;
     left:50%;
 
     transform:translateX(-50%);
 
-    width:min(1200px,94%);
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:12px 18px;
-
-    background:
-        rgba(0,5,2,.82);
-
-    border:
-        1px solid var(--border);
-
     z-index:1000;
 
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:14px 20px;
+
+    border:1px solid var(--line);
+
+    background:rgba(0,5,3,.78);
+
+    backdrop-filter:blur(15px);
+
     box-shadow:
-        0 0 30px rgba(0,255,100,.05);
+        0 0 30px rgba(0,255,136,.03);
 }
 
 .logo{
     font-family:'Orbitron';
 
-    color:var(--green);
-
     font-size:13px;
 
-    letter-spacing:2px;
+    letter-spacing:3px;
 
-    text-shadow:
-        0 0 10px var(--green);
+    color:#fff;
 }
 
-.logo span{
-    color:#fff;
+.logo b{
+    color:var(--green);
+
+    text-shadow:
+        0 0 12px var(--green);
 }
 
 .nav-links{
     display:flex;
-    gap:25px;
+    gap:28px;
 }
 
 .nav-links a{
-    color:#527561;
+    color:#527362;
 
     text-decoration:none;
 
@@ -197,20 +156,21 @@ body::after{
     color:var(--green);
 
     text-shadow:
-        0 0 10px var(--green);
+        0 0 12px var(--green);
 }
 
-.system{
-    font-size:9px;
-
+.status{
     color:var(--green);
 
+    font-size:9px;
+
     display:flex;
-    gap:7px;
     align-items:center;
+
+    gap:7px;
 }
 
-.dot{
+.status i{
     width:6px;
     height:6px;
 
@@ -219,20 +179,20 @@ body::after{
     border-radius:50%;
 
     box-shadow:
-        0 0 10px var(--green);
+        0 0 12px var(--green);
 
     animation:pulse 1s infinite;
 }
 
 @keyframes pulse{
     50%{
-        opacity:.3;
+        opacity:.25;
     }
 }
 
-/* =====================================================
+/* =========================================
    HERO
-===================================================== */
+========================================= */
 
 .hero{
     min-height:100vh;
@@ -243,141 +203,71 @@ body::after{
 
     display:grid;
 
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:
+        1fr 1fr;
 
     align-items:center;
 
-    gap:50px;
+    gap:60px;
 
     padding-top:100px;
 }
 
-/* =====================================================
-   TERMINAL
-===================================================== */
+/* =========================================
+   HERO LEFT
+========================================= */
 
-.terminal{
-    border:
-        1px solid var(--border);
-
-    background:
-        rgba(0,5,2,.75);
-
-    box-shadow:
-        0 0 60px rgba(0,255,100,.04);
-
-    position:relative;
-
-    overflow:hidden;
-}
-
-.terminal::before{
-    content:"";
-
-    position:absolute;
-
-    left:0;
-    right:0;
-
-    height:2px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            var(--green),
-            transparent
-        );
-
-    animation:scan 4s linear infinite;
-}
-
-@keyframes scan{
-    0%{
-        top:-5%;
-    }
-
-    100%{
-        top:105%;
-    }
-}
-
-.terminal-top{
-    height:35px;
-
-    display:flex;
-    align-items:center;
-
-    gap:7px;
-
-    padding:0 12px;
-
-    border-bottom:
-        1px solid var(--border);
-
-    color:#527561;
-
-    font-size:9px;
-}
-
-.tdot{
-    width:8px;
-    height:8px;
-
-    border-radius:50%;
-}
-
-.red{background:#ff1744}
-.yellow{background:#ffc107}
-.green{background:#00ff66}
-
-.terminal-body{
-    padding:28px;
-
-    line-height:2;
-
-    font-size:12px;
-}
-
-.prompt{
-    color:var(--green);
-}
-
-.command{
-    color:#fff;
-}
-
-.output{
-    color:#6e9a7c;
-}
-
-.highlight{
+.kicker{
     color:var(--green);
 
-    text-shadow:
-        0 0 8px rgba(0,255,100,.5);
+    font-size:10px;
+
+    letter-spacing:4px;
+
+    margin-bottom:20px;
 }
 
-/* =====================================================
-   GLITCH TITLE
-===================================================== */
+.kicker::before{
+    content:"[ ";
 
-.glitch{
-    position:relative;
+    color:#395c49;
+}
 
+.kicker::after{
+    content:" ]";
+
+    color:#395c49;
+}
+
+.hero h1{
     font-family:'Orbitron';
 
     font-size:
-        clamp(40px,6vw,80px);
+        clamp(48px,7vw,100px);
 
-    line-height:.95;
+    line-height:.88;
 
-    letter-spacing:-4px;
-
-    margin:
-        25px 0;
+    letter-spacing:-6px;
 
     color:white;
+
+    position:relative;
+}
+
+.hero h1 span{
+    color:transparent;
+
+    -webkit-text-stroke:
+        1px var(--green);
+
+    text-shadow:
+        0 0 25px rgba(0,255,136,.1);
+}
+
+/* glitch */
+
+.glitch{
+    position:relative;
 }
 
 .glitch::before,
@@ -389,719 +279,114 @@ body::after{
     left:0;
     top:0;
 
-    width:100%;
+    opacity:.7;
 
-    overflow:hidden;
-
-    opacity:.8;
+    pointer-events:none;
 }
 
 .glitch::before{
     color:var(--cyan);
 
-    transform:
-        translate(3px,0);
+    transform:translate(3px);
 
     clip-path:
         polygon(
             0 10%,
             100% 10%,
-            100% 35%,
-            0 35%
+            100% 28%,
+            0 28%
         );
 
-    animation:
-        glitch1 2s infinite;
+    animation:glitchA 2.5s infinite;
 }
 
 .glitch::after{
     color:var(--red);
 
-    transform:
-        translate(-3px,0);
+    transform:translate(-3px);
 
     clip-path:
         polygon(
-            0 65%,
-            100% 65%,
-            100% 85%,
-            0 85%
+            0 70%,
+            100% 70%,
+            100% 90%,
+            0 90%
         );
 
-    animation:
-        glitch2 1.7s infinite;
+    animation:glitchB 1.8s infinite;
 }
 
-@keyframes glitch1{
+@keyframes glitchA{
+
     0%,90%,100%{
         transform:translate(0);
     }
 
     92%{
-        transform:translate(8px,-3px);
+        transform:translate(10px,-2px);
     }
 
-    94%{
-        transform:translate(-5px,2px);
+    95%{
+        transform:translate(-4px,2px);
     }
 }
 
-@keyframes glitch2{
-    0%,88%,100%{
+@keyframes glitchB{
+
+    0%,87%,100%{
         transform:translate(0);
     }
 
     90%{
-        transform:translate(-7px,2px);
+        transform:translate(-9px,2px);
     }
 
     94%{
-        transform:translate(5px,-2px);
+        transform:translate(4px,-2px);
     }
 }
 
-.subtitle{
-    color:var(--green);
-
-    font-size:13px;
-
-    letter-spacing:2px;
-}
-
-.description{
-    color:#668271;
-
-    line-height:1.8;
-
+.hero-description{
     max-width:600px;
 
-    margin-top:20px;
+    color:#5e7c6b;
+
+    line-height:1.9;
 
     font-size:13px;
+
+    margin-top:28px;
 }
 
-.description strong{
-    color:#baffcc;
+.hero-description strong{
+    color:#baffd0;
 }
 
-/* =====================================================
-   BUTTONS
-===================================================== */
+/* =========================================
+   COMMAND LINE
+========================================= */
 
-.buttons{
-    display:flex;
+.command-line{
+    margin-top:28px;
 
-    gap:12px;
-
-    margin-top:30px;
-}
-
-.btn{
-    text-decoration:none;
-
-    padding:13px 20px;
-
-    border:
-        1px solid var(--green);
-
-    color:var(--green);
-
-    font-size:10px;
-
-    background:
-        rgba(0,255,100,.03);
-
-    transition:.3s;
-
-    position:relative;
-
-    overflow:hidden;
-}
-
-.btn::before{
-    content:"";
-
-    position:absolute;
-
-    left:-100%;
-
-    top:0;
-
-    width:100%;
-    height:100%;
-
-    background:
-        var(--green);
-
-    transition:.3s;
-
-    z-index:-1;
-}
-
-.btn:hover{
-    color:#000;
-
-    box-shadow:
-        0 0 25px rgba(0,255,100,.3);
-}
-
-.btn:hover::before{
-    left:0;
-}
-
-.btn.red-btn{
-    border-color:var(--red);
-
-    color:var(--red);
-}
-
-.btn.red-btn::before{
-    background:var(--red);
-}
-
-.btn.red-btn:hover{
-    color:#000;
-}
-
-/* =====================================================
-   ASTRONAUT 3D
-===================================================== */
-
-.astronaut-area{
-    height:600px;
-
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    perspective:1000px;
-
-    position:relative;
-}
-
-.astronaut{
-    width:320px;
-    height:500px;
-
-    position:relative;
-
-    transform-style:preserve-3d;
-
-    animation:
-        float 5s ease-in-out infinite;
-}
-
-@keyframes float{
-
-    0%,100%{
-        transform:
-            translateY(0)
-            rotateY(-8deg);
-    }
-
-    50%{
-        transform:
-            translateY(-25px)
-            rotateY(8deg);
-    }
-}
-
-/* helmet */
-
-.helmet{
-    position:absolute;
-
-    width:145px;
-    height:145px;
-
-    left:87px;
-    top:35px;
-
-    border-radius:50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #fff,
-            #8996a3
-        );
-
-    border:
-        5px solid #63717e;
-
-    z-index:5;
-
-    box-shadow:
-        0 0 40px
-        rgba(0,255,100,.15);
-}
-
-.glass{
-    position:absolute;
-
-    left:17px;
-    top:29px;
-
-    width:105px;
-    height:80px;
-
-    border-radius:
-        50% 50% 45% 45%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #102b2b,
-            #020707
-        );
-
-    border:
-        2px solid #405854;
-
-    overflow:hidden;
-}
-
-.glass::after{
-    content:"";
-
-    position:absolute;
-
-    width:100px;
-    height:2px;
-
-    background:
-        var(--green);
-
-    top:35px;
-    left:-100px;
-
-    box-shadow:
-        0 0 10px var(--green);
-
-    animation:
-        glassScan 3s linear infinite;
-}
-
-@keyframes glassScan{
-
-    0%{
-        left:-100px;
-    }
-
-    100%{
-        left:120px;
-    }
-}
-
-/* body */
-
-.body{
-    position:absolute;
-
-    width:195px;
-    height:240px;
-
-    left:62px;
-    top:170px;
-
-    background:
-        linear-gradient(
-            120deg,
-            #f0f2f4,
-            #8996a3
-        );
-
-    border:
-        4px solid #5d6975;
-
-    border-radius:
-        70px 70px 30px 30px;
-}
-
-.chest{
-    position:absolute;
-
-    width:105px;
-    height:80px;
-
-    left:42px;
-    top:45px;
-
-    background:#09100e;
-
-    border:
-        2px solid #40564a;
-
-    border-radius:5px;
-}
-
-.screen{
-    width:70px;
-    height:22px;
-
-    margin:10px auto;
-
-    border:
-        1px solid var(--green);
-
-    color:var(--green);
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    font-size:8px;
-
-    text-shadow:
-        0 0 8px var(--green);
-}
-
-.lights{
-    display:flex;
-    justify-content:center;
-    gap:7px;
-}
-
-.lights span{
-    width:5px;
-    height:5px;
-
-    background:var(--green);
-
-    border-radius:50%;
-
-    box-shadow:
-        0 0 8px var(--green);
-}
-
-/* arms */
-
-.arm{
-    position:absolute;
-
-    width:58px;
-    height:170px;
-
-    top:190px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #66737e,
-            #eef0f2
-        );
-
-    border:
-        3px solid #596672;
-
-    border-radius:35px;
-
-    z-index:-1;
-}
-
-.arm.left{
-    left:8px;
-
-    transform:rotate(14deg);
-}
-
-.arm.right{
-    right:8px;
-
-    transform:rotate(-14deg);
-}
-
-/* legs */
-
-.leg{
-    position:absolute;
-
-    width:68px;
-    height:180px;
-
-    top:380px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #596672,
-            #e6e9eb
-        );
-
-    border:
-        3px solid #53616d;
-
-    border-radius:25px;
-}
-
-.leg.left{
-    left:72px;
-}
-
-.leg.right{
-    right:72px;
-}
-
-.boot{
-    position:absolute;
-
-    bottom:-22px;
-
-    width:80px;
-    height:45px;
-
-    background:#10191a;
-
-    border:
-        3px solid #53635e;
-
-    border-radius:15px;
-}
-
-/* =====================================================
-   HUD
-===================================================== */
-
-.hud{
-    position:absolute;
-
-    padding:12px;
-
-    border:
-        1px solid var(--border);
-
-    background:
-        rgba(0,10,5,.75);
-
-    color:var(--green);
-
-    font-size:8px;
-
-    box-shadow:
-        0 0 20px rgba(0,255,100,.04);
-
-    animation:
-        hudFloat 4s ease-in-out infinite;
-}
-
-.hud1{
-    top:80px;
-    right:0;
-}
-
-.hud2{
-    bottom:100px;
-    left:0;
-
-    animation-delay:1s;
-}
-
-.hud3{
-    bottom:20px;
-    right:40px;
-
-    animation-delay:2s;
-}
-
-@keyframes hudFloat{
-
-    50%{
-        transform:translateY(-10px);
-    }
-}
-
-/* =====================================================
-   SECTIONS
-===================================================== */
-
-section{
-    width:min(1200px,92%);
-
-    margin:auto;
-
-    padding:130px 0;
-}
-
-.section-code{
-    color:var(--green);
-
-    font-size:9px;
-
-    letter-spacing:3px;
-}
-
-.section-title{
-    font-family:'Orbitron';
-
-    font-size:
-        clamp(30px,5vw,55px);
-
-    margin-top:10px;
-
-    color:white;
-}
-
-.section-title span{
-    color:var(--green);
-}
-
-.section-desc{
-    color:#557061;
-
-    max-width:600px;
-
-    line-height:1.8;
-
-    margin-top:15px;
-}
-
-/* =====================================================
-   TERMINAL ABOUT
-===================================================== */
-
-.about-terminal{
-    margin-top:50px;
-}
-
-/* =====================================================
-   SKILLS
-===================================================== */
-
-.skills{
-    margin-top:50px;
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:15px;
-}
-
-.skill{
-    border:
-        1px solid var(--border);
-
-    background:
-        rgba(0,10,5,.7);
-
-    padding:30px;
-
-    transition:.3s;
-
-    position:relative;
-}
-
-.skill:hover{
-    border-color:var(--green);
-
-    transform:
-        translateY(-8px);
-
-    box-shadow:
-        0 15px 40px
-        rgba(0,255,100,.07);
-}
-
-.skill-number{
-    color:#355541;
-
-    font-size:9px;
-}
-
-.skill-icon{
-    font-size:28px;
-
-    margin:
-        20px 0;
-}
-
-.skill h3{
-    color:var(--green);
-
-    font-family:'Orbitron';
-
-    font-size:13px;
-}
-
-.skill p{
-    color:#587064;
+    color:#547565;
 
     font-size:11px;
-
-    line-height:1.8;
-
-    margin-top:10px;
 }
 
-.progress{
-    height:2px;
-
-    margin-top:20px;
-
-    background:#102016;
-}
-
-.progress span{
-    display:block;
-
-    height:100%;
-
-    background:var(--green);
-
-    box-shadow:
-        0 0 8px var(--green);
-}
-
-/* =====================================================
-   HACKER TERMINAL
-===================================================== */
-
-.hacker-screen{
-    margin-top:50px;
-
-    min-height:400px;
-
-    border:
-        1px solid var(--border);
-
-    background:
-        #000603;
-
-    box-shadow:
-        0 0 80px rgba(0,255,100,.04);
-
-    padding:30px;
-
-    font-size:12px;
-
-    line-height:2;
-}
-
-.line{
-    display:block;
-}
-
-.green-text{
+.command-line span{
     color:var(--green);
 }
 
-.red-text{
-    color:var(--red);
-}
-
-.dim{
-    color:#365341;
-}
-
-.cursor-blink{
+.cursor{
     display:inline-block;
 
     width:7px;
-    height:14px;
+    height:13px;
 
     background:var(--green);
+
+    margin-left:4px;
 
     vertical-align:middle;
 
@@ -1114,225 +399,885 @@ section{
     }
 }
 
-/* =====================================================
-   GRAND LINE
-===================================================== */
+/* =========================================
+   BUTTONS
+========================================= */
 
-.grand-line{
-    margin-top:50px;
+.actions{
+    display:flex;
 
-    min-height:550px;
+    gap:12px;
 
-    border:
-        1px solid
-        rgba(255,193,7,.18);
+    margin-top:28px;
+}
 
-    background:
-        radial-gradient(
-            circle at 80% 30%,
-            rgba(255,193,7,.05),
-            transparent 35%
-        ),
-        rgba(8,5,0,.7);
+.btn{
+    padding:13px 20px;
+
+    text-decoration:none;
+
+    font-size:10px;
+
+    color:var(--green);
+
+    border:1px solid var(--green);
 
     position:relative;
 
     overflow:hidden;
 
-    padding:60px;
+    transition:.3s;
+
+    background:
+        rgba(0,255,136,.025);
 }
 
-.grand-line::after{
+.btn::before{
     content:"";
 
     position:absolute;
 
-    bottom:-180px;
-    left:10%;
+    inset:0;
 
-    width:80%;
-    height:350px;
+    background:var(--green);
+
+    transform:translateX(-101%);
+
+    transition:.3s;
+
+    z-index:-1;
+}
+
+.btn:hover{
+    color:#000;
+
+    box-shadow:
+        0 0 30px rgba(0,255,136,.25);
+}
+
+.btn:hover::before{
+    transform:translateX(0);
+}
+
+.btn.alt{
+    color:#667b70;
+
+    border-color:#2d4338;
+}
+
+.btn.alt:hover{
+    color:#fff;
+
+    border-color:var(--cyan);
+}
+
+.btn.alt::before{
+    background:var(--cyan);
+}
+
+/* =========================================
+   3D CYBER CORE
+========================================= */
+
+.core-wrapper{
+    height:580px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    perspective:1200px;
+
+    position:relative;
+}
+
+.core-scene{
+    width:360px;
+    height:360px;
+
+    position:relative;
+
+    transform-style:preserve-3d;
+
+    transition:
+        transform .15s ease-out;
+}
+
+/* rings */
+
+.ring{
+    position:absolute;
+
+    inset:20px;
 
     border-radius:50%;
 
-    border-top:
-        2px solid
-        rgba(0,234,255,.2);
+    border:1px solid rgba(0,255,136,.28);
 
     box-shadow:
-        0 -20px 50px
-        rgba(0,234,255,.04);
+        0 0 25px rgba(0,255,136,.04);
 
-    animation:
-        ocean 5s ease-in-out infinite;
+    transform-style:preserve-3d;
 }
 
-@keyframes ocean{
+.ring.r1{
+    transform:
+        rotateX(70deg)
+        rotateZ(15deg);
 
-    50%{
+    animation:
+        spin1 8s linear infinite;
+}
+
+.ring.r2{
+    inset:50px;
+
+    border-color:
+        rgba(0,234,255,.35);
+
+    transform:
+        rotateY(70deg)
+        rotateZ(20deg);
+
+    animation:
+        spin2 6s linear infinite;
+}
+
+.ring.r3{
+    inset:75px;
+
+    border-color:
+        rgba(255,22,78,.25);
+
+    transform:
+        rotateX(60deg);
+
+    animation:
+        spin3 5s linear infinite;
+}
+
+@keyframes spin1{
+    to{
         transform:
-            translateX(-30px)
-            scaleY(1.1);
+            rotateX(70deg)
+            rotateZ(375deg);
     }
 }
 
-.wanted{
-    display:inline-block;
+@keyframes spin2{
+    to{
+        transform:
+            rotateY(430deg)
+            rotateZ(20deg);
+    }
+}
 
-    background:#ffc107;
+@keyframes spin3{
+    to{
+        transform:
+            rotateX(420deg);
+    }
+}
 
-    color:#140d00;
+/* core */
 
-    padding:7px 13px;
+.core{
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    left:105px;
+    top:105px;
+
+    transform-style:preserve-3d;
+
+    transform:
+        rotateX(20deg)
+        rotateY(20deg);
+
+    animation:
+        coreFloat 4s ease-in-out infinite;
+}
+
+@keyframes coreFloat{
+    50%{
+        transform:
+            rotateX(30deg)
+            rotateY(200deg)
+            translateY(-12px);
+    }
+}
+
+/* cube */
+
+.cube{
+    position:absolute;
+
+    width:130px;
+    height:130px;
+
+    left:10px;
+    top:10px;
+
+    transform-style:preserve-3d;
+
+    animation:
+        cubeSpin 10s linear infinite;
+}
+
+.face{
+    position:absolute;
+
+    width:130px;
+    height:130px;
+
+    border:
+        1px solid rgba(0,255,136,.55);
+
+    background:
+        rgba(0,255,136,.025);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-family:'Orbitron';
 
     font-size:9px;
 
-    letter-spacing:2px;
+    color:var(--green);
+
+    box-shadow:
+        inset 0 0 30px rgba(0,255,136,.025);
 }
 
-.grand-line h2{
-    font-family:'Orbitron';
-
-    font-size:
-        clamp(35px,6vw,70px);
-
-    margin-top:25px;
-
-    line-height:1;
-
-    max-width:700px;
+.front{
+    transform:translateZ(65px);
 }
 
-.grand-line h2 span{
-    color:#ffc107;
+.back{
+    transform:rotateY(180deg) translateZ(65px);
 }
 
-.grand-line p{
-    max-width:600px;
-
-    color:#756e5a;
-
-    line-height:1.8;
-
-    margin-top:20px;
+.right{
+    transform:
+        rotateY(90deg)
+        translateZ(65px);
 }
 
-.pirate{
-    position:absolute;
-
-    right:80px;
-    top:80px;
-
-    font-size:80px;
-
-    animation:
-        pirateFloat 3s ease-in-out infinite;
+.left{
+    transform:
+        rotateY(-90deg)
+        translateZ(65px);
 }
 
-@keyframes pirateFloat{
+.top{
+    transform:
+        rotateX(90deg)
+        translateZ(65px);
+}
 
-    50%{
+.bottom{
+    transform:
+        rotateX(-90deg)
+        translateZ(65px);
+}
+
+@keyframes cubeSpin{
+    from{
         transform:
-            translateY(-15px)
-            rotate(3deg);
+            rotateX(0)
+            rotateY(0)
+            rotateZ(0);
+    }
+
+    to{
+        transform:
+            rotateX(360deg)
+            rotateY(360deg)
+            rotateZ(180deg);
     }
 }
 
-.stats{
+/* center */
+
+.core-light{
+    position:absolute;
+
+    width:40px;
+    height:40px;
+
+    left:55px;
+    top:55px;
+
+    border-radius:50%;
+
+    background:
+        var(--green);
+
+    box-shadow:
+        0 0 15px var(--green),
+        0 0 50px var(--green),
+        0 0 100px rgba(0,255,136,.7);
+
+    animation:
+        corePulse 2s infinite;
+}
+
+@keyframes corePulse{
+    50%{
+        transform:scale(1.3);
+
+        opacity:.6;
+    }
+}
+
+/* orbit dots */
+
+.orbit-dot{
+    position:absolute;
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:var(--cyan);
+
+    box-shadow:
+        0 0 15px var(--cyan);
+
+    animation:
+        orbit 4s linear infinite;
+}
+
+.orbit-dot:nth-child(1){
+    animation-delay:0s;
+}
+
+.orbit-dot:nth-child(2){
+    animation-delay:-1.3s;
+    background:var(--red);
+    box-shadow:0 0 15px var(--red);
+}
+
+.orbit-dot:nth-child(3){
+    animation-delay:-2.6s;
+}
+
+@keyframes orbit{
+
+    0%{
+        transform:
+            rotate(0deg)
+            translateX(190px)
+            rotate(0deg);
+    }
+
+    100%{
+        transform:
+            rotate(360deg)
+            translateX(190px)
+            rotate(-360deg);
+    }
+}
+
+/* =========================================
+   CORE DATA PANELS
+========================================= */
+
+.data-panel{
+    position:absolute;
+
+    padding:12px;
+
+    background:
+        rgba(0,7,4,.85);
+
+    border:
+        1px solid var(--line);
+
+    font-size:8px;
+
+    color:#587766;
+
+    backdrop-filter:blur(8px);
+}
+
+.data-panel strong{
+    display:block;
+
+    color:var(--green);
+
+    font-size:9px;
+
+    margin-bottom:5px;
+}
+
+.panel-a{
+    top:20px;
+    right:-20px;
+}
+
+.panel-b{
+    bottom:45px;
+    left:-30px;
+}
+
+.panel-c{
+    bottom:0;
+    right:20px;
+
+    color:var(--cyan);
+}
+
+/* =========================================
+   SECTIONS
+========================================= */
+
+section{
+    width:min(1200px,92%);
+
+    margin:auto;
+
+    padding:130px 0;
+}
+
+.section-label{
+    color:var(--green);
+
+    font-size:9px;
+
+    letter-spacing:4px;
+}
+
+.section-title{
+    font-family:'Orbitron';
+
+    color:white;
+
+    font-size:
+        clamp(35px,5vw,65px);
+
+    margin-top:12px;
+
+    letter-spacing:-2px;
+}
+
+.section-title span{
+    color:var(--green);
+}
+
+.section-text{
+    max-width:620px;
+
+    color:#587366;
+
+    line-height:1.8;
+
+    font-size:12px;
+
+    margin-top:15px;
+}
+
+/* =========================================
+   ABOUT TERMINAL
+========================================= */
+
+.terminal{
+    margin-top:45px;
+
+    border:
+        1px solid var(--line);
+
+    background:
+        rgba(0,8,4,.8);
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 0 50px rgba(0,255,136,.025);
+}
+
+.terminal::after{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    right:0;
+
+    height:1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--green),
+            transparent
+        );
+
+    top:-2px;
+
+    animation:
+        scan 4s linear infinite;
+}
+
+@keyframes scan{
+    to{
+        top:100%;
+    }
+}
+
+.terminal-top{
+    height:38px;
+
     display:flex;
 
-    gap:40px;
+    align-items:center;
+
+    gap:7px;
+
+    padding:0 14px;
+
+    border-bottom:
+        1px solid var(--line);
+
+    color:#466555;
+
+    font-size:9px;
+}
+
+.tdot{
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+}
+
+.t-red{background:#ff1744}
+.t-yellow{background:#ffc107}
+.t-green{background:#00ff88}
+
+.terminal-body{
+    padding:28px;
+
+    font-size:12px;
+
+    line-height:2;
+}
+
+.prompt{
+    color:var(--green);
+}
+
+.output{
+    color:#6d8e7d;
+}
+
+.white{
+    color:#fff;
+}
+
+/* =========================================
+   SKILLS
+========================================= */
+
+.skills{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:15px;
+
+    margin-top:45px;
+}
+
+.skill{
+    padding:30px;
+
+    min-height:250px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0,255,136,.035),
+            rgba(0,0,0,.8)
+        );
+
+    border:
+        1px solid var(--line);
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:
+        transform .2s,
+        border .2s;
+}
+
+.skill:hover{
+    border-color:
+        rgba(0,255,136,.6);
+
+    transform:
+        translateY(-8px);
+
+    box-shadow:
+        0 20px 50px
+        rgba(0,255,136,.06);
+}
+
+.skill::before{
+    content:"";
+
+    position:absolute;
+
+    width:100px;
+    height:100px;
+
+    border-radius:50%;
+
+    background:
+        var(--green);
+
+    filter:blur(70px);
+
+    opacity:.08;
+
+    right:-30px;
+    top:-30px;
+}
+
+.skill-number{
+    color:#365344;
+
+    font-size:9px;
+}
+
+.skill-icon{
+    font-family:'Orbitron';
+
+    color:var(--green);
+
+    font-size:30px;
+
+    margin:
+        30px 0 20px;
+
+    text-shadow:
+        0 0 15px rgba(0,255,136,.3);
+}
+
+.skill h3{
+    font-family:'Orbitron';
+
+    font-size:12px;
+
+    color:white;
+}
+
+.skill p{
+    color:#547163;
+
+    font-size:10px;
+
+    line-height:1.8;
+
+    margin-top:10px;
+}
+
+/* =========================================
+   PROJECT / MISSION
+========================================= */
+
+.mission-grid{
+    display:grid;
+
+    grid-template-columns:
+        1.3fr .7fr;
+
+    gap:15px;
+
+    margin-top:45px;
+}
+
+.mission{
+    min-height:370px;
+
+    border:
+        1px solid var(--line);
+
+    background:
+        rgba(0,7,4,.75);
+
+    padding:35px;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.mission.large{
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(0,255,136,.08),
+            transparent 30%
+        ),
+        rgba(0,7,4,.75);
+}
+
+.mission-code{
+    color:#345344;
+
+    font-size:9px;
+}
+
+.mission h3{
+    font-family:'Orbitron';
+
+    font-size:24px;
+
+    color:white;
 
     margin-top:30px;
 }
 
-.stat{
-    border-left:
-        2px solid #ffc107;
-
-    padding-left:12px;
-}
-
-.stat small{
-    color:#6f6959;
-
-    display:block;
-
-    font-size:8px;
-}
-
-.stat strong{
-    color:#ffc107;
-
-    font-size:11px;
-
-    display:block;
-
-    margin-top:5px;
-}
-
-/* =====================================================
-   CONTACT
-===================================================== */
-
-.contact{
-    text-align:center;
-
-    padding:100px 20px;
-
-    border:
-        1px solid var(--border);
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(0,255,100,.05),
-            transparent 60%
-        );
-}
-
-.contact h2{
-    font-family:'Orbitron';
-
-    font-size:
-        clamp(35px,6vw,70px);
-
-    line-height:1;
-}
-
-.contact h2 span{
+.mission h3 span{
     color:var(--green);
 }
 
-.contact p{
-    color:#557061;
+.mission p{
+    max-width:550px;
 
-    max-width:500px;
-
-    margin:20px auto 30px;
+    color:#557466;
 
     line-height:1.8;
+
+    font-size:11px;
+
+    margin-top:18px;
 }
 
-/* =====================================================
+.mission-terminal{
+    position:absolute;
+
+    bottom:25px;
+    left:35px;
+
+    color:#456352;
+
+    font-size:9px;
+}
+
+.mission-terminal b{
+    color:var(--green);
+}
+
+.mini{
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+}
+
+.mini h3{
+    font-size:18px;
+}
+
+.mini .big{
+    font-family:'Orbitron';
+
+    color:var(--green);
+
+    font-size:45px;
+
+    text-shadow:
+        0 0 20px rgba(0,255,136,.25);
+}
+
+/* =========================================
+   FINAL
+========================================= */
+
+.final{
+    text-align:center;
+
+    padding:
+        160px 20px;
+}
+
+.final .small{
+    color:#466352;
+
+    font-size:9px;
+
+    letter-spacing:4px;
+}
+
+.final h2{
+    font-family:'Orbitron';
+
+    color:white;
+
+    font-size:
+        clamp(40px,7vw,90px);
+
+    line-height:.9;
+
+    margin:25px 0;
+}
+
+.final h2 span{
+    color:var(--green);
+
+    text-shadow:
+        0 0 30px rgba(0,255,136,.2);
+}
+
+.final p{
+    max-width:550px;
+
+    margin:auto;
+
+    color:#557163;
+
+    line-height:1.8;
+
+    font-size:12px;
+}
+
+/* =========================================
    FOOTER
-===================================================== */
+========================================= */
 
 footer{
     width:min(1200px,92%);
 
     margin:auto;
 
-    border-top:
-        1px solid var(--border);
+    padding:
+        30px 0 50px;
 
-    padding:30px 0 50px;
+    border-top:
+        1px solid var(--line);
 
     display:flex;
 
     justify-content:space-between;
 
-    color:#365341;
+    color:#345142;
 
     font-size:9px;
 }
@@ -1341,54 +1286,51 @@ footer span{
     color:var(--green);
 }
 
-/* =====================================================
+/* =========================================
    RESPONSIVE
-===================================================== */
+========================================= */
 
-@media(max-width:850px){
-
-    .nav-links{
-        display:none;
-    }
+@media(max-width:900px){
 
     .hero{
         grid-template-columns:1fr;
-
-        padding-top:130px;
     }
 
-    .astronaut-area{
-        height:550px;
-    }
-
-    .astronaut{
-        transform:scale(.8);
+    .core-wrapper{
+        height:500px;
     }
 
     .skills{
         grid-template-columns:1fr;
     }
 
-    .grand-line{
-        padding:35px;
-    }
-
-    .pirate{
-        opacity:.2;
-        right:20px;
+    .mission-grid{
+        grid-template-columns:1fr;
     }
 
 }
 
-@media(max-width:500px){
+@media(max-width:600px){
 
-    .glitch{
-        font-size:40px;
-
-        letter-spacing:-2px;
+    .nav-links{
+        display:none;
     }
 
-    .buttons{
+    .hero{
+        padding-top:130px;
+    }
+
+    .hero h1{
+        font-size:50px;
+        letter-spacing:-3px;
+    }
+
+    .core-wrapper{
+        transform:scale(.8);
+        margin:-40px 0;
+    }
+
+    .actions{
         flex-direction:column;
     }
 
@@ -1396,191 +1338,124 @@ footer span{
         text-align:center;
     }
 
-    .astronaut{
-        transform:scale(.65);
+    section{
+        padding:90px 0;
     }
 
-    .hud{
-        display:none;
-    }
-
-    .stats{
-        flex-direction:column;
-        gap:15px;
+    .mission{
+        min-height:400px;
     }
 
     footer{
         flex-direction:column;
-
         gap:10px;
     }
-}
 
+}
 </style>
 </head>
 
-
 <body>
 
-<!-- MATRIX -->
+<canvas id="canvas"></canvas>
 
-<canvas id="matrix"></canvas>
+<div class="noise"></div>
+<div class="scanlines"></div>
+<div class="vignette"></div>
 
-<div class="grid"></div>
 
-
-<!-- =====================================================
+<!-- =========================================
      NAV
-===================================================== -->
+========================================= -->
 
-<nav class="nav">
+<nav>
 
     <div class="logo">
-        ROOT<span>://</span>LIKHITH
+        <b>PB</b>://LIKHITH
     </div>
 
     <div class="nav-links">
 
         <a href="#home">HOME</a>
-
         <a href="#about">ABOUT</a>
-
         <a href="#skills">SKILLS</a>
-
         <a href="#mission">MISSION</a>
-
         <a href="#contact">CONTACT</a>
 
     </div>
 
-    <div class="system">
-
-        <div class="dot"></div>
-
-        SYSTEM ONLINE
-
+    <div class="status">
+        <i></i>
+        ONLINE
     </div>
 
 </nav>
 
 
-<!-- =====================================================
+<!-- =========================================
      HERO
-===================================================== -->
+========================================= -->
 
 <section class="hero" id="home">
 
-
     <div>
 
-        <div class="terminal">
-
-            <div class="terminal-top">
-
-                <div class="tdot red"></div>
-                <div class="tdot yellow"></div>
-                <div class="tdot green"></div>
-
-                <span>
-                    root@likhith:~/portfolio
-                </span>
-
-            </div>
-
-
-            <div class="terminal-body">
-
-                <div>
-                    <span class="prompt">
-                        root@likhith
-                    </span>:
-                    <span class="command">
-                        ~$ whoami
-                    </span>
-                </div>
-
-                <div class="output">
-                    Student Developer
-                </div>
-
-
-                <div>
-                    <span class="prompt">
-                        root@likhith
-                    </span>:
-                    <span class="command">
-                        ~$ status
-                    </span>
-                </div>
-
-                <div class="highlight">
-                    [ONLINE] Learning...
-                </div>
-
-
-                <div>
-                    <span class="prompt">
-                        root@likhith
-                    </span>:
-                    <span class="command">
-                        ~$ current_mission
-                    </span>
-                </div>
-
-                <div class="output">
-                    Web Development + DSA
-                </div>
-
-            </div>
-
+        <div class="kicker">
+            SYSTEM ACCESS GRANTED
         </div>
-
-
-        <div class="subtitle">
-            // WELCOME TO MY SYSTEM
-        </div>
-
 
         <h1
             class="glitch"
-            data-text="LIKHITH PB"
+            data-text="LIKHITH"
         >
-            LIKHITH PB
+            LIKHITH
+            <br>
+            <span>PB.</span>
         </h1>
 
+        <p class="hero-description">
 
-        <p class="description">
-
-            I'm a
-            <strong>3rd semester BTech CSE student</strong>
-            exploring the digital world.
+            <strong>Computer Science Engineering student</strong>
+            navigating the digital universe.
 
             <br><br>
 
-            Currently learning
-            <strong>Web Development</strong>,
-            sharpening my problem-solving skills with
-            <strong>DSA in C++</strong>,
-            and building fundamentals with
-            <strong>Python</strong>.
+            3rd semester.
+            Learning Web Development.
+            Building my DSA skills with C++.
+            Exploring Python.
+
+            <br><br>
+
+            <strong>
+                Still learning. Still building. Still loading.
+            </strong>
 
         </p>
 
+        <div class="command-line">
 
-        <div class="buttons">
+            <span>likhith@dev:~$</span>
+            ./build_future
 
-            <a
-                href="#mission"
-                class="btn"
-            >
-                ./START_ADVENTURE
-            </a>
+            <span class="cursor"></span>
+
+        </div>
+
+        <div class="actions">
 
             <a
                 href="#skills"
-                class="btn red-btn"
+                class="btn"
             >
-                ./ACCESS_SKILLS
+                ENTER SYSTEM →
+            </a>
+
+            <a
+                href="#about"
+                class="btn alt"
+            >
+                READ PROFILE
             </a>
 
         </div>
@@ -1588,84 +1463,86 @@ footer span{
     </div>
 
 
-    <!-- =================================================
-         ASTRONAUT
-    ================================================== -->
+    <!-- =====================================
+         CYBER CORE
+    ====================================== -->
 
-    <div class="astronaut-area">
-
-
-        <div class="hud hud1">
-
-            SYSTEM: ACTIVE<br>
-            O₂: 98%<br>
-            SIGNAL: GOOD
-
-        </div>
-
-
-        <div class="hud hud2">
-
-            LOCATION:<br>
-            UNKNOWN SECTOR
-
-        </div>
-
-
-        <div class="hud hud3">
-
-            MISSION:<br>
-            BUILD THE FUTURE
-
-        </div>
-
+    <div class="core-wrapper">
 
         <div
-            class="astronaut"
-            id="astronaut"
+            class="core-scene"
+            id="coreScene"
         >
 
-            <div class="helmet">
-
-                <div class="glass"></div>
-
-            </div>
+            <div class="ring r1"></div>
+            <div class="ring r2"></div>
+            <div class="ring r3"></div>
 
 
-            <div class="body">
+            <div class="core">
 
-                <div class="chest">
+                <div class="cube">
 
-                    <div class="screen">
-                        PB-01
+                    <div class="face front">
+                        PB // 01
                     </div>
 
-                    <div class="lights">
+                    <div class="face back">
+                        CSE
+                    </div>
 
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                    <div class="face right">
+                        CODE
+                    </div>
 
+                    <div class="face left">
+                        BUILD
+                    </div>
+
+                    <div class="face top">
+                        DSA
+                    </div>
+
+                    <div class="face bottom">
+                        WEB
                     </div>
 
                 </div>
 
-            </div>
-
-
-            <div class="arm left"></div>
-            <div class="arm right"></div>
-
-
-            <div class="leg left">
-
-                <div class="boot"></div>
+                <div class="core-light"></div>
 
             </div>
 
-            <div class="leg right">
 
-                <div class="boot"></div>
+            <div class="orbit-dot"></div>
+            <div class="orbit-dot"></div>
+            <div class="orbit-dot"></div>
+
+
+            <div class="data-panel panel-a">
+
+                <strong>CORE_STATUS</strong>
+
+                POWER: 87%<br>
+                CPU: LEARNING<br>
+                MODE: BUILD
+
+            </div>
+
+
+            <div class="data-panel panel-b">
+
+                <strong>LOCATION</strong>
+
+                SEMESTER_03<br>
+                CSE // INDIA
+
+            </div>
+
+
+            <div class="data-panel panel-c">
+
+                SIGNAL // STABLE
 
             </div>
 
@@ -1676,38 +1553,41 @@ footer span{
 </section>
 
 
-<!-- =====================================================
+<!-- =========================================
      ABOUT
-===================================================== -->
+========================================= -->
 
 <section id="about">
 
-    <div class="section-code">
+    <div class="section-label">
         [01] // IDENTITY
     </div>
 
     <h2 class="section-title">
-        WHO <span>AM I?</span>
+        THE <span>DEVELOPER</span>
+        BEHIND THE CODE.
     </h2>
 
-    <p class="section-desc">
+    <p class="section-text">
 
-        Accessing user profile...
-        Authentication successful.
+        No legendary story yet.
+        Just a student with a laptop,
+        curiosity and a lot of things
+        left to learn.
 
     </p>
 
 
-    <div class="about-terminal terminal">
+    <div class="terminal">
 
         <div class="terminal-top">
 
-            <div class="tdot red"></div>
-            <div class="tdot yellow"></div>
-            <div class="tdot green"></div>
+            <div class="tdot t-red"></div>
+            <div class="tdot t-yellow"></div>
+            <div class="tdot t-green"></div>
 
             <span>
-                /home/likhith/profile.txt
+                /home/likhith/profile
             </span>
 
         </div>
@@ -1715,88 +1595,81 @@ footer span{
 
         <div class="terminal-body">
 
-            <span class="line">
-
+            <div>
                 <span class="prompt">
-                    $
+                    likhith@dev:~$
                 </span>
 
-                cat education.txt
+                whoami
+            </div>
 
-            </span>
-
-            <span class="line output">
-
-                BTech — Computer Science Engineering
-
-            </span>
+            <div class="output">
+                BTech Computer Science Engineering Student
+            </div>
 
 
             <br>
 
 
-            <span class="line">
-
+            <div>
                 <span class="prompt">
-                    $
+                    likhith@dev:~$
                 </span>
 
-                cat semester.txt
+                semester
+            </div>
 
-            </span>
-
-            <span class="line highlight">
-
-                3rd Semester
-
-            </span>
+            <div class="output">
+                03
+            </div>
 
 
             <br>
 
 
-            <span class="line">
-
+            <div>
                 <span class="prompt">
-                    $
+                    likhith@dev:~$
                 </span>
 
-                cat learning.txt
+                currently_learning
+            </div>
 
-            </span>
-
-            <span class="line output">
-
-                Web Development
-                <br>
-                Data Structures & Algorithms
-                <br>
-                C++
-                <br>
-                Python Fundamentals
-
-            </span>
+            <div class="output">
+                Web Development // DSA // C++
+            </div>
 
 
             <br>
 
 
-            <span class="line">
-
+            <div>
                 <span class="prompt">
-                    $
+                    likhith@dev:~$
                 </span>
 
-                ./future
+                python
+            </div>
 
-            </span>
+            <div class="output">
+                Basics unlocked.
+            </div>
 
-            <span class="line highlight">
 
-                ACCESS DENIED: Still Loading...
-                <span class="cursor-blink"></span>
+            <br>
 
-            </span>
+
+            <div>
+                <span class="prompt">
+                    likhith@dev:~$
+                </span>
+
+                future
+            </div>
+
+            <div class="white">
+                BUILD SOMETHING WORTH REMEMBERING.
+            </div>
 
         </div>
 
@@ -1805,22 +1678,23 @@ footer span{
 </section>
 
 
-<!-- =====================================================
+<!-- =========================================
      SKILLS
-===================================================== -->
+========================================= -->
 
 <section id="skills">
 
-    <div class="section-code">
-        [02] // SKILL_DATABASE
+    <div class="section-label">
+        [02] // LOADOUT
     </div>
 
     <h2 class="section-title">
-        MY <span>LOADOUT.</span>
+        CURRENT <span>ARSENAL.</span>
     </h2>
 
-    <p class="section-desc">
-        Current technologies installed in my brain.exe
+    <p class="section-text">
+        Technologies and concepts currently
+        installed in my brain.exe.
     </p>
 
 
@@ -1842,14 +1716,10 @@ footer span{
             </h3>
 
             <p>
-                HTML, CSS and JavaScript.
-                Building interfaces and learning
-                how the web works.
+                Learning how HTML, CSS and
+                JavaScript come together to
+                create interactive websites.
             </p>
-
-            <div class="progress">
-                <span style="width:70%"></span>
-            </div>
 
         </div>
 
@@ -1865,17 +1735,14 @@ footer span{
             </div>
 
             <h3>
-                DSA / C++
+                DSA
             </h3>
 
             <p>
-                Currently learning Data Structures
-                and Algorithms using C++.
+                Currently exploring Data
+                Structures and Algorithms
+                using C++.
             </p>
-
-            <div class="progress">
-                <span style="width:55%"></span>
-            </div>
 
         </div>
 
@@ -1887,7 +1754,7 @@ footer span{
             </div>
 
             <div class="skill-icon">
-                🐍
+                PY
             </div>
 
             <h3>
@@ -1895,13 +1762,10 @@ footer span{
             </h3>
 
             <p>
-                Basic Python knowledge and
-                programming fundamentals.
+                Basic Python knowledge with
+                a focus on programming
+                fundamentals.
             </p>
-
-            <div class="progress">
-                <span style="width:45%"></span>
-            </div>
 
         </div>
 
@@ -1911,220 +1775,131 @@ footer span{
 </section>
 
 
-<!-- =====================================================
-     HACKER TERMINAL
-===================================================== -->
-
-<section>
-
-    <div class="section-code">
-        [03] // TERMINAL
-    </div>
-
-    <h2 class="section-title">
-        <span>SYSTEM</span> LOGS.
-    </h2>
-
-
-    <div class="hacker-screen">
-
-        <span class="line green-text">
-            [SYSTEM] Initializing Likhith.exe...
-        </span>
-
-        <span class="line dim">
-            [SYSTEM] Loading CSE modules...
-        </span>
-
-        <span class="line dim">
-            [SYSTEM] Connecting to Web Development...
-        </span>
-
-        <br>
-
-        <span class="line green-text">
-            [OK] HTML module loaded.
-        </span>
-
-        <span class="line green-text">
-            [OK] CSS module loaded.
-        </span>
-
-        <span class="line green-text">
-            [OK] JavaScript module loaded.
-        </span>
-
-        <span class="line green-text">
-            [OK] C++ module loaded.
-        </span>
-
-        <span class="line green-text">
-            [OK] Python basics loaded.
-        </span>
-
-        <br>
-
-        <span class="line red-text">
-            [WARNING] DSA skill level: STILL TRAINING
-        </span>
-
-        <span class="line dim">
-            [INFO] More practice required...
-        </span>
-
-        <br>
-
-        <span class="line green-text">
-            [MISSION] Build something amazing.
-        </span>
-
-        <span class="line">
-            <span class="prompt">
-                root@likhith:~$
-            </span>
-
-            <span class="cursor-blink"></span>
-        </span>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     ONE PIECE / GRAND LINE
-===================================================== -->
+<!-- =========================================
+     MISSION
+========================================= -->
 
 <section id="mission">
 
-    <div class="section-code">
-        [04] // SECRET_MISSION
+    <div class="section-label">
+        [03] // MISSION
     </div>
 
     <h2 class="section-title">
-        THE <span>GRAND LINE.</span>
+        LOADING <span>NEXT LEVEL.</span>
     </h2>
 
-
-    <div class="grand-line">
-
-        <div class="wanted">
-            CLASSIFIED // DREAMER
-        </div>
+    <p class="section-text">
+        The journey is still in its early stages.
+    </p>
 
 
-        <div class="pirate">
-            ☠️
-        </div>
+    <div class="mission-grid">
 
 
-        <h2>
-            FIND YOUR
-            <span>ONE PIECE.</span>
-        </h2>
+        <div class="mission large">
 
-
-        <p>
-
-            Every developer has a treasure they're
-            searching for.
-
-            <br><br>
-
-            For me, it's the knowledge to build things
-            that once seemed impossible.
-
-            <br><br>
-
-            Learn. Fail. Debug. Repeat.
-
-            That's the adventure.
-
-        </p>
-
-
-        <div class="stats">
-
-            <div class="stat">
-
-                <small>
-                    CURRENT ARC
-                </small>
-
-                <strong>
-                    CSE
-                </strong>
-
+            <div class="mission-code">
+                PROJECT // FUTURE.exe
             </div>
 
+            <h3>
+                LEARN.
+                <span>BUILD.</span>
+                REPEAT.
+            </h3>
 
-            <div class="stat">
+            <p>
 
-                <small>
-                    POWER
-                </small>
+                My current mission is simple:
 
-                <strong>
-                    LEARNING
-                </strong>
+                understand the fundamentals,
+                build real projects,
+                solve difficult problems,
+                and keep improving.
 
-            </div>
+                <br><br>
 
+                Every bug is another piece of
+                the puzzle.
 
-            <div class="stat">
+            </p>
 
-                <small>
-                    DREAM
-                </small>
+            <div class="mission-terminal">
 
-                <strong>
-                    BUILD
-                </strong>
+                <b>[ACTIVE]</b>
+                development_mode
 
             </div>
 
         </div>
+
+
+        <div class="mission mini">
+
+            <div>
+
+                <div class="mission-code">
+                    CURRENT_PROGRESS
+                </div>
+
+                <h3>
+                    KNOWLEDGE
+                    <span>CORE</span>
+                </h3>
+
+            </div>
+
+            <div class="big">
+                03
+            </div>
+
+            <div class="mission-code">
+                SEMESTER // CSE
+            </div>
+
+        </div>
+
 
     </div>
 
 </section>
 
 
-<!-- =====================================================
+<!-- =========================================
      CONTACT
-===================================================== -->
+========================================= -->
 
 <section id="contact">
 
-    <div class="contact">
+    <div class="final">
 
-        <div class="section-code">
-            [05] // TRANSMISSION
+        <div class="small">
+            END OF TRANSMISSION
         </div>
 
-
         <h2>
-            CONNECT TO
-            <span>MY SYSTEM.</span>
+            LET'S
+            <span>BUILD.</span>
         </h2>
-
 
         <p>
 
-            Want to talk about code,
-            projects, DSA, web development,
-            or just share an idea?
+            If you're interested in coding,
+            technology, projects or just
+            exchanging ideas,
 
-            Open a transmission.
+            start a transmission.
 
         </p>
 
+        <br><br>
 
         <a
             href="mailto:yourmail@example.com"
             class="btn"
         >
-            SEND_TRANSMISSION →
+            SEND TRANSMISSION →
         </a>
 
     </div>
@@ -2132,20 +1907,15 @@ footer span{
 </section>
 
 
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
 <footer>
 
     <div>
-        LIKHITH PB // 2026
+        LIKHITH PB // CSE // 03
     </div>
 
     <div>
-        <span>
-            SYSTEM_STATUS: ONLINE
-        </span>
+        SYSTEM_STATUS:
+        <span>ONLINE</span>
     </div>
 
 </footer>
@@ -2153,28 +1923,26 @@ footer span{
 
 <script>
 
-/* =====================================================
-   MATRIX RAIN
-===================================================== */
+/* =========================================
+   PARTICLE BACKGROUND
+========================================= */
 
 const canvas =
-    document.getElementById("matrix");
+    document.getElementById("canvas");
 
 const ctx =
     canvas.getContext("2d");
 
-let width;
-let height;
+let particles = [];
 
 function resize(){
 
-    width =
-        canvas.width =
+    canvas.width =
         window.innerWidth;
 
-    height =
-        canvas.height =
+    canvas.height =
         window.innerHeight;
+
 }
 
 resize();
@@ -2185,160 +1953,163 @@ window.addEventListener(
 );
 
 
-const chars =
-"01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@<>/{}[]";
+/* create particles */
 
-const fontSize = 13;
+for(let i=0;i<100;i++){
 
-let columns =
-    Math.floor(window.innerWidth/fontSize);
+    particles.push({
 
-let drops =
-    Array(columns).fill(1);
+        x:Math.random()*innerWidth,
+
+        y:Math.random()*innerHeight,
+
+        size:
+            Math.random()*1.8+.3,
+
+        speed:
+            Math.random()*.35+.05,
+
+        alpha:
+            Math.random()*.6+.1
+
+    });
+
+}
 
 
-function matrix(){
+function animate(){
 
     ctx.fillStyle =
-        "rgba(0,0,0,.08)";
+        "#010303";
 
     ctx.fillRect(
         0,
         0,
-        width,
-        height
+        canvas.width,
+        canvas.height
     );
 
-    ctx.fillStyle =
-        "#00ff66";
 
-    ctx.font =
-        fontSize+"px monospace";
+    particles.forEach(p=>{
 
+        p.y -= p.speed;
 
-    for(
-        let i=0;
-        i<drops.length;
-        i++
-    ){
+        if(p.y<0){
 
-        const char =
-            chars[
-                Math.floor(
-                    Math.random()*chars.length
-                )
-            ];
+            p.y =
+                canvas.height;
 
-
-        ctx.fillText(
-            char,
-            i*fontSize,
-            drops[i]*fontSize
-        );
-
-
-        if(
-            drops[i]*fontSize >
-            height &&
-            Math.random()>.975
-        ){
-
-            drops[i]=0;
+            p.x =
+                Math.random()*
+                canvas.width;
 
         }
 
-        drops[i]++;
 
-    }
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            p.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fillStyle =
+            `rgba(
+                0,
+                255,
+                136,
+                ${p.alpha}
+            )`;
+
+        ctx.fill();
+
+
+    });
+
+
+    requestAnimationFrame(
+        animate
+    );
 
 }
 
-setInterval(
-    matrix,
-    45
-);
+animate();
 
 
-/* =====================================================
-   ASTRONAUT 3D MOUSE EFFECT
-===================================================== */
+/* =========================================
+   3D MOUSE CORE
+========================================= */
 
-const astronaut =
+const scene =
     document.getElementById(
-        "astronaut"
+        "coreScene"
     );
 
 
 document.addEventListener(
     "mousemove",
-    e => {
+    e=>{
 
-        if(window.innerWidth<850)
+        if(innerWidth<900)
             return;
 
 
         const x =
-            (window.innerWidth/2-e.clientX)/35;
+            (e.clientX /
+            innerWidth -
+            .5);
 
         const y =
-            (window.innerHeight/2-e.clientY)/35;
+            (e.clientY /
+            innerHeight -
+            .5);
 
 
-        astronaut.style.animation =
-            "none";
-
-
-        astronaut.style.transform =
+        scene.style.transform =
             `
-            translateY(-8px)
-            rotateY(${x}deg)
-            rotateX(${-y}deg)
+            rotateX(${-y*12}deg)
+            rotateY(${x*15}deg)
             `;
-
     }
 );
 
 
-/* =====================================================
-   SKILL 3D TILT
-===================================================== */
+/* =========================================
+   SKILL CARD TILT
+========================================= */
 
 document
 .querySelectorAll(".skill")
-.forEach(card => {
-
+.forEach(card=>{
 
     card.addEventListener(
         "mousemove",
-        e => {
+        e=>{
 
-            const rect =
+            const r =
                 card.getBoundingClientRect();
 
-
             const x =
-                e.clientX-
-                rect.left;
-
+                e.clientX-r.left;
 
             const y =
-                e.clientY-
-                rect.top;
+                e.clientY-r.top;
 
+            const rx =
+                ((y/r.height)-.5)*-8;
 
-            const rotateY =
-                ((x/rect.width)-.5)*10;
-
-
-            const rotateX =
-                ((y/rect.height)-.5)*-10;
+            const ry =
+                ((x/r.width)-.5)*8;
 
 
             card.style.transform =
                 `
-                perspective(600px)
-                rotateX(${rotateX}deg)
-                rotateY(${rotateY}deg)
+                perspective(700px)
+                rotateX(${rx}deg)
+                rotateY(${ry}deg)
                 translateY(-8px)
                 `;
 
@@ -2348,10 +2119,9 @@ document
 
     card.addEventListener(
         "mouseleave",
-        () => {
+        ()=>{
 
-            card.style.transform =
-                "";
+            card.style.transform="";
 
         }
     );
@@ -2359,45 +2129,69 @@ document
 });
 
 
-/* =====================================================
-   RANDOM TERMINAL GLITCH
-===================================================== */
+/* =========================================
+   TERMINAL TYPING EFFECT
+========================================= */
 
-const glitch =
+const commands = [
+    "build_future",
+    "learn_dsa",
+    "create_website",
+    "solve_problem",
+    "keep_learning"
+];
+
+let commandIndex = 0;
+
+const cursor =
+    document.querySelector(".command-line");
+
+
+setInterval(()=>{
+
+    commandIndex =
+        (commandIndex+1) %
+        commands.length;
+
+    cursor.innerHTML =
+        `
+        <span>likhith@dev:~$</span>
+        ${commands[commandIndex]}
+        <span class="cursor"></span>
+        `;
+
+},3000);
+
+
+/* =========================================
+   RANDOM GLITCH
+========================================= */
+
+const title =
     document.querySelector(".glitch");
 
 
-setInterval(
-    () => {
+setInterval(()=>{
 
-        if(
-            Math.random()>.75
-        ){
+    if(Math.random()>.7){
 
-            glitch.style.transform =
-                `translate(
-                    ${Math.random()*6-3}px,
-                    ${Math.random()*4-2}px
-                )`;
+        title.style.transform =
+            `translate(
+                ${Math.random()*6-3}px,
+                ${Math.random()*4-2}px
+            )`;
 
-            setTimeout(
-                () => {
+        setTimeout(()=>{
 
-                    glitch.style.transform =
-                        "";
+            title.style.transform="";
 
-                },
-                100
-            );
+        },100);
 
-        }
+    }
 
-    },
-    1200
-);
+},1300);
 
 </script>
 
 </body>
 </html>
-s

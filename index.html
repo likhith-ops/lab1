@@ -1,825 +1,2178 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Likhith PB | CSE Student</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    /* =========================
-       RESET
-    ========================== */
+<title>Likhith PB | CSE Developer</title>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+<style>
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+:root {
+
+    --primary: #00f7ff;
+    --secondary: #7c3cff;
+    --accent: #ff2bd6;
+
+    --bg: #050816;
+    --card: rgba(255,255,255,0.06);
+
+    --text: #ffffff;
+    --muted: #9ca3af;
+
+    --glow: rgba(0,247,255,0.35);
+
+}
+
+/* =====================================================
+   THEMES
+===================================================== */
+
+body.purple {
+
+    --primary:#b026ff;
+    --secondary:#5b21b6;
+    --accent:#ff2bd6;
+    --glow:rgba(176,38,255,.4);
+
+}
+
+body.green {
+
+    --primary:#00ff9d;
+    --secondary:#00b86b;
+    --accent:#a3ff12;
+    --glow:rgba(0,255,157,.35);
+
+}
+
+body.orange {
+
+    --primary:#ff8a00;
+    --secondary:#ff3d00;
+    --accent:#ffd000;
+    --glow:rgba(255,138,0,.35);
+
+}
+
+body.red {
+
+    --primary:#ff1744;
+    --secondary:#b00020;
+    --accent:#ff6d00;
+    --glow:rgba(255,23,68,.35);
+
+}
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+html {
+
+    scroll-behavior:smooth;
+
+}
+
+body {
+
+    font-family:
+
+        Inter,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background:
+
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(124,58,237,.15),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(0,247,255,.12),
+            transparent 30%
+        ),
+
+        var(--bg);
+
+    color:var(--text);
+
+    overflow-x:hidden;
+
+    transition:
+        background .5s,
+        color .5s;
+
+}
+
+
+/* =====================================================
+   CUSTOM CURSOR
+===================================================== */
+
+.cursor {
+
+    position:fixed;
+
+    width:20px;
+    height:20px;
+
+    border:2px solid var(--primary);
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    transform:translate(-50%,-50%);
+
+    z-index:9999;
+
+    box-shadow:
+        0 0 20px var(--primary);
+
+}
+
+.cursor-glow {
+
+    position:fixed;
+
+    width:300px;
+    height:300px;
+
+    border-radius:50%;
+
+    background:
+
+        radial-gradient(
+            circle,
+            var(--glow),
+            transparent 70%
+        );
+
+    pointer-events:none;
+
+    transform:translate(-50%,-50%);
+
+    z-index:-1;
+
+}
+
+
+/* =====================================================
+   PARTICLES
+===================================================== */
+
+#particles {
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-3;
+
+}
+
+.particle {
+
+    position:absolute;
+
+    width:3px;
+    height:3px;
+
+    background:var(--primary);
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 10px var(--primary);
+
+    animation:
+
+        floatParticle
+        linear infinite;
+
+}
+
+@keyframes floatParticle {
+
+    from {
+
+        transform:
+            translateY(100vh)
+            rotate(0deg);
+
+        opacity:0;
+
     }
 
-    html {
-      scroll-behavior: smooth;
+    20% {
+
+        opacity:1;
+
     }
 
-    body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      color: #fff;
-      background: #050816;
-      overflow-x: hidden;
+    80% {
+
+        opacity:1;
+
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    to {
+
+        transform:
+            translateY(-10vh)
+            rotate(360deg);
+
+        opacity:0;
+
     }
 
-    /* =========================
-       ANIMATED BACKGROUND
-    ========================== */
+}
 
-    body::before {
-      content: "";
-      position: fixed;
-      width: 600px;
-      height: 600px;
-      background: #6c2cff;
-      filter: blur(180px);
-      opacity: 0.25;
-      top: -200px;
-      left: -200px;
-      z-index: -2;
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+nav {
+
+    position:fixed;
+
+    top:20px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:92%;
+    max-width:1200px;
+
+    padding:15px 22px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    background:
+        rgba(5,8,22,.65);
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
+    border-radius:20px;
+
+    backdrop-filter:blur(20px);
+
+    z-index:1000;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.35);
+
+}
+
+.logo {
+
+    font-size:22px;
+
+    font-weight:900;
+
+    letter-spacing:2px;
+
+    color:var(--primary);
+
+    text-shadow:
+        0 0 20px var(--primary);
+
+}
+
+.nav-links {
+
+    display:flex;
+
+    gap:28px;
+
+}
+
+.nav-links a {
+
+    color:#aaa;
+
+    font-size:14px;
+
+    transition:.3s;
+
+}
+
+.nav-links a:hover {
+
+    color:var(--primary);
+
+    text-shadow:
+        0 0 15px var(--primary);
+
+}
+
+
+/* =====================================================
+   THEME SWITCHER
+===================================================== */
+
+.theme-panel {
+
+    position:fixed;
+
+    right:20px;
+    top:100px;
+
+    padding:12px;
+
+    background:
+        rgba(10,10,30,.7);
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:15px;
+
+    z-index:999;
+
+}
+
+.theme-panel button {
+
+    width:22px;
+    height:22px;
+
+    border-radius:50%;
+
+    border:none;
+
+    margin:4px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.theme-panel button:hover {
+
+    transform:scale(1.3);
+
+}
+
+.t-cyan {
+    background:#00f7ff;
+}
+
+.t-purple {
+    background:#b026ff;
+}
+
+.t-green {
+    background:#00ff9d;
+}
+
+.t-orange {
+    background:#ff8a00;
+}
+
+.t-red {
+    background:#ff1744;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+
+    min-height:100vh;
+
+    width:90%;
+
+    max-width:1200px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        1.2fr .8fr;
+
+    align-items:center;
+
+    gap:70px;
+
+}
+
+.badge {
+
+    display:inline-block;
+
+    padding:8px 15px;
+
+    border:
+        1px solid var(--primary);
+
+    border-radius:30px;
+
+    color:var(--primary);
+
+    font-size:13px;
+
+    margin-bottom:25px;
+
+    box-shadow:
+        0 0 20px var(--glow);
+
+}
+
+.hero h1 {
+
+    font-size:
+        clamp(55px,9vw,110px);
+
+    line-height:.9;
+
+    font-weight:900;
+
+    letter-spacing:-5px;
+
+    margin-bottom:30px;
+
+    background:
+
+        linear-gradient(
+            120deg,
+            white,
+            var(--primary),
+            var(--accent)
+        );
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+}
+
+.hero h2 {
+
+    color:#aaa;
+
+    font-weight:400;
+
+    font-size:24px;
+
+    margin-bottom:20px;
+
+}
+
+.hero p {
+
+    max-width:650px;
+
+    color:#8f96a3;
+
+    line-height:1.9;
+
+    font-size:16px;
+
+}
+
+.hero-buttons {
+
+    display:flex;
+
+    gap:15px;
+
+    margin-top:35px;
+
+    flex-wrap:wrap;
+
+}
+
+.btn {
+
+    padding:15px 25px;
+
+    border-radius:12px;
+
+    border:
+        1px solid var(--primary);
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    color:#fff;
+
+    font-weight:700;
+
+    box-shadow:
+        0 10px 35px var(--glow);
+
+    transition:.35s;
+
+}
+
+.btn:hover {
+
+    transform:
+        translateY(-6px)
+        scale(1.03);
+
+    box-shadow:
+        0 20px 50px var(--glow);
+
+}
+
+.btn-outline {
+
+    background:
+        rgba(255,255,255,.04);
+
+}
+
+
+/* =====================================================
+   3D HOLOGRAM
+===================================================== */
+
+.scene {
+
+    perspective:1000px;
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+.hologram {
+
+    width:300px;
+
+    height:400px;
+
+    position:relative;
+
+    transform-style:preserve-3d;
+
+    animation:
+
+        hologramFloat
+        5s ease-in-out infinite;
+
+}
+
+@keyframes hologramFloat {
+
+    0%,100% {
+
+        transform:
+            rotateY(-10deg)
+            translateY(0);
+
     }
 
-    body::after {
-      content: "";
-      position: fixed;
-      width: 500px;
-      height: 500px;
-      background: #00eaff;
-      filter: blur(180px);
-      opacity: 0.18;
-      right: -150px;
-      bottom: -150px;
-      z-index: -2;
+    50% {
+
+        transform:
+            rotateY(10deg)
+            translateY(-20px);
+
     }
 
-    /* =========================
-       NAVBAR
-    ========================== */
+}
 
-    nav {
-      width: 90%;
-      max-width: 1100px;
-      margin: 25px auto;
-      padding: 15px 25px;
+.holo-card {
 
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    position:absolute;
 
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 20px;
+    inset:0;
 
-      backdrop-filter: blur(20px);
+    padding:30px;
 
-      box-shadow:
-        0 10px 40px rgba(0,0,0,0.3),
-        inset 0 1px rgba(255,255,255,0.08);
+    display:flex;
 
-      position: sticky;
-      top: 20px;
-      z-index: 100;
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.1),
+            rgba(255,255,255,.02)
+        );
+
+    border:
+        1px solid var(--primary);
+
+    border-radius:30px;
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+
+        0 0 40px var(--glow),
+
+        inset 0 0 40px
+        rgba(255,255,255,.04);
+
+}
+
+.avatar {
+
+    width:120px;
+    height:120px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:40px;
+
+    font-weight:900;
+
+    color:#fff;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 0 50px var(--glow);
+
+    margin-bottom:25px;
+
+}
+
+.holo-card h3 {
+
+    font-size:25px;
+
+    margin-bottom:10px;
+
+}
+
+.holo-card p {
+
+    color:#aaa;
+
+    font-size:14px;
+
+}
+
+
+/* =====================================================
+   GENERAL SECTION
+===================================================== */
+
+section {
+
+    width:90%;
+
+    max-width:1200px;
+
+    margin:
+        150px auto;
+
+}
+
+.section-label {
+
+    color:var(--primary);
+
+    font-size:13px;
+
+    letter-spacing:4px;
+
+    text-transform:uppercase;
+
+    margin-bottom:15px;
+
+}
+
+.section-title {
+
+    font-size:
+        clamp(35px,5vw,60px);
+
+    margin-bottom:50px;
+
+}
+
+
+/* =====================================================
+   3D CARDS
+===================================================== */
+
+.cards {
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:25px;
+
+}
+
+.card {
+
+    position:relative;
+
+    padding:35px;
+
+    min-height:250px;
+
+    border-radius:25px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.025)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+    backdrop-filter:blur(20px);
+
+    transform-style:preserve-3d;
+
+    transition:
+        transform .15s ease,
+        border .3s;
+
+    overflow:hidden;
+
+}
+
+.card::before {
+
+    content:"";
+
+    position:absolute;
+
+    width:120px;
+    height:120px;
+
+    background:var(--primary);
+
+    filter:blur(80px);
+
+    opacity:.15;
+
+}
+
+.card:hover {
+
+    border-color:var(--primary);
+
+    box-shadow:
+        0 30px 70px rgba(0,0,0,.4);
+
+}
+
+.card-icon {
+
+    font-size:45px;
+
+    margin-bottom:25px;
+
+}
+
+.card h3 {
+
+    font-size:22px;
+
+    margin-bottom:15px;
+
+}
+
+.card p {
+
+    color:#9299a6;
+
+    line-height:1.8;
+
+}
+
+
+/* =====================================================
+   SKILLS
+===================================================== */
+
+.skill-grid {
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:20px;
+
+}
+
+.skill {
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.04);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+}
+
+.skill-top {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:12px;
+
+}
+
+.skill-top span:last-child {
+
+    color:var(--primary);
+
+}
+
+.progress {
+
+    height:8px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+.progress-bar {
+
+    height:100%;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            var(--secondary),
+            var(--primary)
+        );
+
+    border-radius:20px;
+
+    box-shadow:
+        0 0 15px var(--primary);
+
+}
+
+
+/* =====================================================
+   ROADMAP
+===================================================== */
+
+.roadmap {
+
+    position:relative;
+
+    display:grid;
+
+    gap:25px;
+
+}
+
+.roadmap::before {
+
+    content:"";
+
+    position:absolute;
+
+    left:25px;
+
+    top:0;
+    bottom:0;
+
+    width:2px;
+
+    background:
+        linear-gradient(
+            var(--primary),
+            transparent
+        );
+
+}
+
+.road {
+
+    display:flex;
+
+    gap:25px;
+
+}
+
+.road-number {
+
+    min-width:52px;
+    height:52px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        var(--bg);
+
+    border:
+        2px solid var(--primary);
+
+    color:var(--primary);
+
+    box-shadow:
+        0 0 20px var(--glow);
+
+    z-index:2;
+
+}
+
+.road-content {
+
+    padding:25px;
+
+    background:
+        rgba(255,255,255,.04);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+    flex:1;
+
+}
+
+.road-content h3 {
+
+    margin-bottom:8px;
+
+}
+
+.road-content p {
+
+    color:#888;
+
+    line-height:1.7;
+
+}
+
+
+/* =====================================================
+   PROJECTS
+===================================================== */
+
+.project {
+
+    min-height:300px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+}
+
+.project-tag {
+
+    color:var(--primary);
+
+    font-size:12px;
+
+    letter-spacing:2px;
+
+    margin-bottom:15px;
+
+}
+
+.project-link {
+
+    color:var(--primary);
+
+    margin-top:25px;
+
+}
+
+
+/* =====================================================
+   CONTACT
+===================================================== */
+
+.contact-box {
+
+    text-align:center;
+
+    padding:80px 30px;
+
+    border-radius:30px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(0,247,255,.08),
+            rgba(124,58,237,.08)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+}
+
+.contact-box h2 {
+
+    font-size:
+        clamp(35px,6vw,70px);
+
+    margin-bottom:20px;
+
+}
+
+.contact-box p {
+
+    color:#999;
+
+    margin-bottom:30px;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+
+    text-align:center;
+
+    padding:50px;
+
+    color:#666;
+
+    border-top:
+        1px solid rgba(255,255,255,.08);
+
+}
+
+footer strong {
+
+    color:var(--primary);
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:850px) {
+
+    .nav-links {
+
+        display:none;
+
     }
-
-    .logo {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: 2px;
-
-      background: linear-gradient(90deg, #00eaff, #8b5cf6);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 30px;
-    }
-
-    nav a {
-      color: #ccc;
-      font-size: 14px;
-      transition: 0.3s;
-    }
-
-    nav a:hover {
-      color: #00eaff;
-      text-shadow: 0 0 15px #00eaff;
-    }
-
-    /* =========================
-       HERO
-    ========================== */
 
     .hero {
-      min-height: 90vh;
-      max-width: 1100px;
-      width: 90%;
-      margin: auto;
 
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      align-items: center;
-      gap: 50px;
-    }
+        grid-template-columns:1fr;
 
-    .hero-content {
-      animation: fadeUp 1s ease;
-    }
+        text-align:center;
 
-    .hello {
-      color: #00eaff;
-      font-size: 18px;
-      margin-bottom: 15px;
-      letter-spacing: 2px;
-    }
+        padding-top:140px;
 
-    .hero h1 {
-      font-size: clamp(50px, 8vw, 90px);
-      line-height: 0.95;
-      margin-bottom: 25px;
-
-      background: linear-gradient(
-        120deg,
-        #fff,
-        #00eaff,
-        #8b5cf6
-      );
-
-      -webkit-background-clip: text;
-      color: transparent;
-
-      text-shadow: 0 0 40px rgba(0,234,255,0.15);
-    }
-
-    .hero h2 {
-      color: #aaa;
-      font-weight: 400;
-      font-size: 23px;
-      margin-bottom: 20px;
     }
 
     .hero p {
-      max-width: 600px;
-      color: #999;
-      line-height: 1.8;
-      font-size: 16px;
+
+        margin:auto;
+
     }
 
-    /* =========================
-       BUTTON
-    ========================== */
+    .hero-buttons {
 
-    .buttons {
-      display: flex;
-      gap: 15px;
-      margin-top: 35px;
+        justify-content:center;
+
     }
 
-    .btn {
-      padding: 14px 25px;
-      border-radius: 12px;
+    .scene {
 
-      background: linear-gradient(
-        135deg,
-        #00eaff,
-        #6c2cff
-      );
+        margin-top:50px;
 
-      color: white;
-      font-weight: 600;
-
-      box-shadow:
-        0 10px 30px rgba(0,234,255,0.2);
-
-      transition: 0.3s;
-
-      border: 1px solid rgba(255,255,255,0.2);
     }
-
-    .btn:hover {
-      transform: translateY(-5px) scale(1.03);
-      box-shadow:
-        0 20px 40px rgba(0,234,255,0.3);
-    }
-
-    .btn-outline {
-      background: rgba(255,255,255,0.05);
-    }
-
-    /* =========================
-       3D CUBE
-    ========================== */
-
-    .cube-container {
-      height: 350px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      perspective: 900px;
-    }
-
-    .cube {
-      width: 180px;
-      height: 180px;
-
-      position: relative;
-
-      transform-style: preserve-3d;
-      animation: rotateCube 12s infinite linear;
-    }
-
-    .face {
-      position: absolute;
-      width: 180px;
-      height: 180px;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      font-size: 45px;
-      font-weight: bold;
-
-      background: rgba(0,234,255,0.07);
-      border: 2px solid rgba(0,234,255,0.6);
-
-      box-shadow:
-        inset 0 0 30px rgba(0,234,255,0.15),
-        0 0 30px rgba(0,234,255,0.15);
-
-      backdrop-filter: blur(5px);
-    }
-
-    .front  { transform: translateZ(90px); }
-    .back   { transform: rotateY(180deg) translateZ(90px); }
-    .right  { transform: rotateY(90deg) translateZ(90px); }
-    .left   { transform: rotateY(-90deg) translateZ(90px); }
-    .top    { transform: rotateX(90deg) translateZ(90px); }
-    .bottom { transform: rotateX(-90deg) translateZ(90px); }
-
-    @keyframes rotateCube {
-      0% {
-        transform: rotateX(0) rotateY(0);
-      }
-
-      100% {
-        transform: rotateX(360deg) rotateY(360deg);
-      }
-    }
-
-    /* =========================
-       SECTIONS
-    ========================== */
-
-    section {
-      width: 90%;
-      max-width: 1100px;
-      margin: 120px auto;
-    }
-
-    .section-title {
-      font-size: 40px;
-      margin-bottom: 50px;
-      text-align: center;
-
-      background: linear-gradient(
-        90deg,
-        #fff,
-        #00eaff
-      );
-
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    /* =========================
-       GLASS CARDS
-    ========================== */
 
     .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
+
+        grid-template-columns:1fr;
+
     }
 
-    .card {
-      padding: 30px;
+    .skill-grid {
 
-      background: linear-gradient(
-        145deg,
-        rgba(255,255,255,0.09),
-        rgba(255,255,255,0.02)
-      );
+        grid-template-columns:1fr;
 
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-
-      backdrop-filter: blur(20px);
-
-      box-shadow:
-        0 20px 50px rgba(0,0,0,0.25),
-        inset 0 1px rgba(255,255,255,0.08);
-
-      transition: 0.4s;
-
-      transform-style: preserve-3d;
     }
 
-    .card:hover {
-      transform:
-        translateY(-12px)
-        rotateX(4deg)
-        rotateY(-4deg);
+    .theme-panel {
 
-      border-color: rgba(0,234,255,0.5);
+        right:10px;
 
-      box-shadow:
-        0 30px 60px rgba(0,234,255,0.1);
     }
 
-    .card-icon {
-      font-size: 40px;
-      margin-bottom: 20px;
-    }
+}
 
-    .card h3 {
-      margin-bottom: 12px;
-      font-size: 22px;
-    }
 
-    .card p {
-      color: #999;
-      line-height: 1.7;
-    }
+/* =====================================================
+   SELECTION
+===================================================== */
 
-    /* =========================
-       SKILLS
-    ========================== */
+::selection {
 
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-    }
+    background:var(--primary);
 
-    .skill {
-      padding: 15px 25px;
+    color:#000;
 
-      border-radius: 50px;
+}
 
-      background: rgba(255,255,255,0.06);
+</style>
 
-      border: 1px solid rgba(255,255,255,0.12);
-
-      color: #ccc;
-
-      transition: 0.3s;
-    }
-
-    .skill:hover {
-      color: #00eaff;
-      border-color: #00eaff;
-
-      transform: translateY(-5px) scale(1.05);
-
-      box-shadow:
-        0 10px 25px rgba(0,234,255,0.15);
-    }
-
-    /* =========================
-       ABOUT
-    ========================== */
-
-    .about-box {
-      padding: 45px;
-
-      background: rgba(255,255,255,0.04);
-
-      border: 1px solid rgba(255,255,255,0.1);
-
-      border-radius: 25px;
-
-      backdrop-filter: blur(20px);
-
-      box-shadow:
-        0 30px 70px rgba(0,0,0,0.3);
-    }
-
-    .about-box p {
-      color: #aaa;
-      line-height: 2;
-      font-size: 17px;
-      text-align: center;
-    }
-
-    .highlight {
-      color: #00eaff;
-    }
-
-    /* =========================
-       CONTACT
-    ========================== */
-
-    .contact {
-      text-align: center;
-    }
-
-    .contact p {
-      color: #999;
-      margin-bottom: 30px;
-    }
-
-    /* =========================
-       FOOTER
-    ========================== */
-
-    footer {
-      text-align: center;
-      padding: 40px;
-      color: #666;
-
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-
-    footer span {
-      color: #00eaff;
-    }
-
-    /* =========================
-       ANIMATIONS
-    ========================== */
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================== */
-
-    @media (max-width: 800px) {
-
-      nav ul {
-        display: none;
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
-        text-align: center;
-        padding-top: 50px;
-      }
-
-      .hero p {
-        margin: auto;
-      }
-
-      .buttons {
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      .cube-container {
-        height: 280px;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .section-title {
-        font-size: 32px;
-      }
-    }
-  </style>
 </head>
+
 
 <body>
 
-  <!-- =========================
-       NAVBAR
-  ========================== -->
 
-  <nav>
-    <div class="logo">LPB.</div>
+<!-- =====================================================
+     CURSOR
+===================================================== -->
 
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#learning">Learning</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<div class="cursor"></div>
+
+<div class="cursor-glow"></div>
 
 
-  <!-- =========================
-       HERO
-  ========================== -->
+<!-- =====================================================
+     PARTICLES
+===================================================== -->
 
-  <main id="home">
+<div id="particles"></div>
 
-    <div class="hero">
 
-      <div class="hero-content">
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
 
-        <div class="hello">
-          👋 HELLO, I'M
+<nav>
+
+    <div class="logo">
+        LPB.
+    </div>
+
+    <div class="nav-links">
+
+        <a href="#about">About</a>
+
+        <a href="#skills">Skills</a>
+
+        <a href="#learning">Learning</a>
+
+        <a href="#projects">Projects</a>
+
+        <a href="#contact">Contact</a>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     THEME SWITCHER
+===================================================== -->
+
+<div class="theme-panel">
+
+    <button
+        class="t-cyan"
+        onclick="theme('cyan')">
+    </button>
+
+    <button
+        class="t-purple"
+        onclick="theme('purple')">
+    </button>
+
+    <button
+        class="t-green"
+        onclick="theme('green')">
+    </button>
+
+    <button
+        class="t-orange"
+        onclick="theme('orange')">
+    </button>
+
+    <button
+        class="t-red"
+        onclick="theme('red')">
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<main>
+
+<section class="hero">
+
+    <div>
+
+        <div class="badge">
+
+            🚀 3rd Semester CSE Student
+
         </div>
+
 
         <h1>
-          Likhith<br>
-          PB
+
+            LIKHITH<br>
+            PB
+
         </h1>
 
+
         <h2>
-          B.Tech CSE Student • Web Developer in Progress
+
+            Developer in the Making.
+
         </h2>
 
+
         <p>
-          I'm a 3rd semester Computer Science Engineering student
-          exploring the world of web development, programming and
-          problem solving.
+
+            I'm a B.Tech Computer Science Engineering student
+            passionate about technology, programming and
+            building things for the web.
+
+            Currently exploring frontend development and
+            sharpening my problem-solving skills with
+            Data Structures & Algorithms in C++.
+
         </p>
 
-        <div class="buttons">
-          <a href="#about" class="btn">
-            Explore Me →
-          </a>
 
-          <a href="#contact" class="btn btn-outline">
-            Contact
-          </a>
-        </div>
+        <div class="hero-buttons">
 
-      </div>
+            <a href="#projects" class="btn">
 
+                View My Journey →
 
-      <!-- 3D CUBE -->
+            </a>
 
-      <div class="cube-container">
+            <a href="#contact" class="btn btn-outline">
 
-        <div class="cube">
+                Let's Connect
 
-          <div class="face front">{"</>"}</div>
-          <div class="face back">C++</div>
-          <div class="face right">PY</div>
-          <div class="face left">DSA</div>
-          <div class="face top">⚡</div>
-          <div class="face bottom">LPB</div>
+            </a>
 
         </div>
-
-      </div>
 
     </div>
 
 
-    <!-- =========================
-         ABOUT
-    ========================== -->
+    <!-- 3D PROFILE -->
 
-    <section id="about">
+    <div class="scene">
 
-      <h2 class="section-title">
-        About Me
-      </h2>
+        <div class="hologram">
 
-      <div class="about-box">
+            <div class="holo-card">
+
+                <div class="avatar">
+
+                    LP
+
+                </div>
+
+                <h3>
+
+                    Likhith PB
+
+                </h3>
+
+                <p>
+
+                    B.Tech CSE
+
+                </p>
+
+                <br>
+
+                <p>
+
+                    Python • C++ • Web Development
+
+                </p>
+
+                <br>
+
+                <p>
+
+                    ⚡ Learning something new every day
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section id="about">
+
+    <div class="section-label">
+
+        01 — ABOUT
+
+    </div>
+
+    <h2 class="section-title">
+
+        Who am I?
+
+    </h2>
+
+
+    <div class="cards">
+
+        <div class="card tilt">
+
+            <div class="card-icon">
+                🎓
+            </div>
+
+            <h3>
+
+                Computer Science Student
+
+            </h3>
+
+            <p>
+
+                Currently pursuing my B.Tech in
+                Computer Science Engineering and
+                building a strong foundation in
+                programming and software development.
+
+            </p>
+
+        </div>
+
+
+        <div class="card tilt">
+
+            <div class="card-icon">
+                🌐
+            </div>
+
+            <h3>
+
+                Web Explorer
+
+            </h3>
+
+            <p>
+
+                I'm learning how websites work,
+                experimenting with HTML, CSS and
+                JavaScript and creating interactive
+                interfaces.
+
+            </p>
+
+        </div>
+
+
+        <div class="card tilt">
+
+            <div class="card-icon">
+                🧠
+            </div>
+
+            <h3>
+
+                Problem Solver
+
+            </h3>
+
+            <p>
+
+                Currently learning Data Structures
+                and Algorithms using C++ to improve
+                my problem-solving and logical
+                thinking abilities.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SKILLS
+===================================================== -->
+
+<section id="skills">
+
+    <div class="section-label">
+
+        02 — SKILLS
+
+    </div>
+
+    <h2 class="section-title">
+
+        My Current Arsenal
+
+    </h2>
+
+
+    <div class="skill-grid">
+
+
+        <div class="skill">
+
+            <div class="skill-top">
+
+                <span>HTML</span>
+
+                <span>Learning</span>
+
+            </div>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="width:75%">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="skill">
+
+            <div class="skill-top">
+
+                <span>CSS</span>
+
+                <span>Learning</span>
+
+            </div>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="width:65%">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="skill">
+
+            <div class="skill-top">
+
+                <span>JavaScript</span>
+
+                <span>Exploring</span>
+
+            </div>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="width:40%">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="skill">
+
+            <div class="skill-top">
+
+                <span>Python</span>
+
+                <span>Basics</span>
+
+            </div>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="width:45%">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="skill">
+
+            <div class="skill-top">
+
+                <span>C++</span>
+
+                <span>Learning</span>
+
+            </div>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="width:50%">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="skill">
+
+            <div class="skill-top">
+
+                <span>DSA</span>
+
+                <span>Learning</span>
+
+            </div>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="width:40%">
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LEARNING ROADMAP
+===================================================== -->
+
+<section id="learning">
+
+    <div class="section-label">
+
+        03 — ROADMAP
+
+    </div>
+
+    <h2 class="section-title">
+
+        My Learning Journey
+
+    </h2>
+
+
+    <div class="roadmap">
+
+
+        <div class="road">
+
+            <div class="road-number">
+
+                01
+
+            </div>
+
+            <div class="road-content">
+
+                <h3>
+
+                    Programming Fundamentals
+
+                </h3>
+
+                <p>
+
+                    Building a strong foundation with
+                    Python and understanding core
+                    programming concepts.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="road">
+
+            <div class="road-number">
+
+                02
+
+            </div>
+
+            <div class="road-content">
+
+                <h3>
+
+                    C++ & DSA
+
+                </h3>
+
+                <p>
+
+                    Currently exploring C++,
+                    Data Structures, Algorithms,
+                    recursion and problem solving.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="road">
+
+            <div class="road-number">
+
+                03
+
+            </div>
+
+            <div class="road-content">
+
+                <h3>
+
+                    Web Development
+
+                </h3>
+
+                <p>
+
+                    Learning HTML, CSS and JavaScript
+                    while building creative websites
+                    and interactive interfaces.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="road">
+
+            <div class="road-number">
+
+                04
+
+            </div>
+
+            <div class="road-content">
+
+                <h3>
+
+                    Future Goals
+
+                </h3>
+
+                <p>
+
+                    Build real-world projects,
+                    contribute to open source,
+                    improve DSA and become a
+                    better software developer.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PROJECTS
+===================================================== -->
+
+<section id="projects">
+
+    <div class="section-label">
+
+        04 — PROJECTS
+
+    </div>
+
+    <h2 class="section-title">
+
+        Things I Want To Build
+
+    </h2>
+
+
+    <div class="cards">
+
+
+        <div class="card project tilt">
+
+            <div>
+
+                <div class="project-tag">
+
+                    WEB • 01
+
+                </div>
+
+                <h3>
+
+                    Personal Portfolio
+
+                </h3>
+
+                <p>
+
+                    A creative personal portfolio
+                    showcasing my skills, learning
+                    journey and projects.
+
+                </p>
+
+            </div>
+
+            <div class="project-link">
+
+                Coming Soon →
+
+            </div>
+
+        </div>
+
+
+        <div class="card project tilt">
+
+            <div>
+
+                <div class="project-tag">
+
+                    C++ • 02
+
+                </div>
+
+                <h3>
+
+                    DSA Playground
+
+                </h3>
+
+                <p>
+
+                    A collection of C++ implementations
+                    for data structures and algorithms
+                    that I'm learning.
+
+                </p>
+
+            </div>
+
+            <div class="project-link">
+
+                In Progress →
+
+            </div>
+
+        </div>
+
+
+        <div class="card project tilt">
+
+            <div>
+
+                <div class="project-tag">
+
+                    FUTURE • 03
+
+                </div>
+
+                <h3>
+
+                    Something Awesome
+
+                </h3>
+
+                <p>
+
+                    A future project built from an idea
+                    that solves a real problem.
+
+                </p>
+
+            </div>
+
+            <div class="project-link">
+
+                Loading... →
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CONTACT
+===================================================== -->
+
+<section id="contact">
+
+    <div class="contact-box">
+
+        <div class="section-label">
+
+            05 — CONTACT
+
+        </div>
+
+        <h2>
+
+            Let's Build Something.
+
+        </h2>
 
         <p>
-          I'm <span class="highlight">Likhith PB</span>, currently
-          pursuing my <span class="highlight">B.Tech in Computer
-          Science Engineering</span>.
 
-          I'm currently in my
-          <span class="highlight">3rd semester</span> and building
-          my foundation in programming and software development.
+            I'm always open to learning,
+            collaborating and connecting
+            with fellow developers.
 
-          I know the basics of
-          <span class="highlight">Python</span> and I'm currently
-          learning <span class="highlight">Data Structures &
-          Algorithms using C++</span>.
-
-          At the same time, I'm exploring
-          <span class="highlight">HTML, CSS and JavaScript</span>
-          to become better at web development.
         </p>
 
-      </div>
+        <a
+            href="mailto:your-email@example.com"
+            class="btn">
 
-    </section>
+            📧 Say Hello
 
-
-    <!-- =========================
-         SKILLS
-    ========================== -->
-
-    <section id="skills">
-
-      <h2 class="section-title">
-        What I Know
-      </h2>
-
-      <div class="cards">
-
-        <div class="card">
-
-          <div class="card-icon">🐍</div>
-
-          <h3>Python</h3>
-
-          <p>
-            I know the fundamentals of Python and I'm
-            continuing to improve my programming skills.
-          </p>
-
-        </div>
-
-
-        <div class="card">
-
-          <div class="card-icon">🌐</div>
-
-          <h3>Web Development</h3>
-
-          <p>
-            Currently learning HTML, CSS and JavaScript
-            while experimenting with creative web designs.
-          </p>
-
-        </div>
-
-
-        <div class="card">
-
-          <div class="card-icon">⚙️</div>
-
-          <h3>C++ & DSA</h3>
-
-          <p>
-            Currently learning Data Structures and Algorithms
-            using C++ and practicing problem solving.
-          </p>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         SKILL TAGS
-    ========================== -->
-
-    <section>
-
-      <h2 class="section-title">
-        My Tech Stack
-      </h2>
-
-      <div class="skills">
-
-        <div class="skill">HTML</div>
-        <div class="skill">CSS</div>
-        <div class="skill">JavaScript</div>
-        <div class="skill">Python</div>
-        <div class="skill">C++</div>
-        <div class="skill">DSA</div>
-        <div class="skill">Git</div>
-        <div class="skill">Problem Solving</div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         CURRENTLY LEARNING
-    ========================== -->
-
-    <section id="learning">
-
-      <h2 class="section-title">
-        Currently Learning
-      </h2>
-
-      <div class="cards">
-
-        <div class="card">
-
-          <div class="card-icon">🧠</div>
-
-          <h3>Data Structures</h3>
-
-          <p>
-            Arrays, strings, linked lists, stacks, queues
-            and other important data structures.
-          </p>
-
-        </div>
-
-
-        <div class="card">
-
-          <div class="card-icon">🔍</div>
-
-          <h3>Algorithms</h3>
-
-          <p>
-            Learning searching, sorting, recursion,
-            complexity analysis and algorithmic thinking.
-          </p>
-
-        </div>
-
-
-        <div class="card">
-
-          <div class="card-icon">💻</div>
-
-          <h3>Frontend Development</h3>
-
-          <p>
-            Exploring responsive layouts, animations,
-            JavaScript and interactive websites.
-          </p>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         CONTACT
-    ========================== -->
-
-    <section id="contact" class="contact">
-
-      <h2 class="section-title">
-        Let's Connect
-      </h2>
-
-      <p>
-        I'm always interested in learning, building and
-        connecting with other developers.
-      </p>
-
-      <div class="buttons" style="justify-content:center;">
-
-        <a href="mailto:your-email@example.com" class="btn">
-          📧 Email Me
         </a>
 
-        <a href="#" class="btn btn-outline">
-          GitHub
-        </a>
+    </div>
 
-      </div>
-
-    </section>
-
-  </main>
+</section>
 
 
-  <!-- =========================
-       FOOTER
-  ========================== -->
+</main>
 
-  <footer>
 
-    Built with ❤️ by
-    <span>Likhith PB</span>
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    Designed & Built by
+    <strong>Likhith PB</strong>
+
     <br><br>
 
-    © 2026 Likhith PB • CSE Student
+    B.Tech CSE • 3rd Semester
 
-  </footer>
+    <br><br>
+
+    © 2026 Likhith PB
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   THEME SWITCHER
+===================================================== */
+
+function theme(color) {
+
+    document.body.classList.remove(
+        "purple",
+        "green",
+        "orange",
+        "red"
+    );
+
+    if(color !== "cyan") {
+
+        document.body.classList.add(color);
+
+    }
+
+}
+
+
+/* =====================================================
+   PARTICLE GENERATOR
+===================================================== */
+
+const particleContainer =
+    document.getElementById("particles");
+
+for(let i = 0; i < 80; i++) {
+
+    const particle =
+        document.createElement("div");
+
+    particle.className = "particle";
+
+    particle.style.left =
+        Math.random() * 100 + "%";
+
+    particle.style.animationDuration =
+        (5 + Math.random() * 12) + "s";
+
+    particle.style.animationDelay =
+        Math.random() * 10 + "s";
+
+    particle.style.opacity =
+        Math.random();
+
+    particleContainer.appendChild(particle);
+
+}
+
+
+/* =====================================================
+   CUSTOM CURSOR
+===================================================== */
+
+const cursor =
+    document.querySelector(".cursor");
+
+const glow =
+    document.querySelector(".cursor-glow");
+
+document.addEventListener("mousemove", e => {
+
+    cursor.style.left = e.clientX + "px";
+
+    cursor.style.top = e.clientY + "px";
+
+    glow.style.left = e.clientX + "px";
+
+    glow.style.top = e.clientY + "px";
+
+});
+
+
+/* =====================================================
+   3D TILT CARDS
+===================================================== */
+
+const cards =
+    document.querySelectorAll(".tilt");
+
+cards.forEach(card => {
+
+    card.addEventListener("mousemove", e => {
+
+        const rect =
+            card.getBoundingClientRect();
+
+        const x =
+            e.clientX - rect.left;
+
+        const y =
+            e.clientY - rect.top;
+
+        const centerX =
+            rect.width / 2;
+
+        const centerY =
+            rect.height / 2;
+
+        const rotateX =
+            ((y - centerY) / centerY) * -7;
+
+        const rotateY =
+            ((x - centerX) / centerX) * 7;
+
+        card.style.transform = `
+            perspective(1000px)
+            rotateX(${rotateX}deg)
+            rotateY(${rotateY}deg)
+            translateY(-8px)
+        `;
+
+    });
+
+
+    card.addEventListener("mouseleave", () => {
+
+        card.style.transform =
+            "perspective(1000px) rotateX(0) rotateY(0)";
+
+    });
+
+});
+
+
+/* =====================================================
+   SCROLL REVEAL
+===================================================== */
+
+const observer =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                if(entry.isIntersecting) {
+
+                    entry.target.style.opacity = "1";
+
+                    entry.target.style.transform =
+                        "translateY(0)";
+
+                }
+
+            });
+
+        },
+        {
+            threshold:.15
+        }
+    );
+
+
+document
+    .querySelectorAll("section")
+    .forEach(section => {
+
+        section.style.opacity = "0";
+
+        section.style.transform =
+            "translateY(50px)";
+
+        section.style.transition =
+            "1s ease";
+
+        observer.observe(section);
+
+    });
+
+</script>
+
 
 </body>
+
 </html>

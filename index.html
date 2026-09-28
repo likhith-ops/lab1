@@ -1,120 +1,770 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Likhith PB | CSE Student</title> </head> <body>
-<!-- Header -->
-<header>
-    <h1>Likhith PB</h1>
-    <p>BTech CSE Student | Web Development Learner</p>
 
-    <nav>
-        <a href="#about">About</a> |
-        <a href="#skills">Skills</a> |
-        <a href="#learning">Learning</a> |
-        <a href="#contact">Contact</a>
-    </nav>
-</header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<hr>
+  <title>Likhith PB | CSE Student & Developer</title>
 
-<!-- About Section -->
-<section id="about">
-    <h2>About Me</h2>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --bg: #080b12;
+      --card: #101520;
+      --primary: #00f5a0;
+      --secondary: #00d9f5;
+      --text: #f2f5f7;
+      --muted: #8b95a7;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Background Glow */
+    body::before {
+      content: "";
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      background: var(--primary);
+      filter: blur(180px);
+      opacity: 0.08;
+      top: -200px;
+      left: -200px;
+      z-index: -1;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      background: var(--secondary);
+      filter: blur(180px);
+      opacity: 0.07;
+      bottom: -200px;
+      right: -200px;
+      z-index: -1;
+    }
+
+    /* Navbar */
+    nav {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(15px);
+      background: rgba(8, 11, 18, 0.75);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: auto;
+      height: 70px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 25px;
+    }
+
+    .logo {
+      font-family: 'Fira Code', monospace;
+      color: var(--primary);
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .logo span {
+      color: white;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      max-width: 1100px;
+      margin: auto;
+      padding: 150px 25px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 50px;
+    }
+
+    .hero-content {
+      max-width: 650px;
+    }
+
+    .tag {
+      display: inline-block;
+      color: var(--primary);
+      background: rgba(0, 245, 160, 0.08);
+      border: 1px solid rgba(0, 245, 160, 0.2);
+      padding: 8px 15px;
+      border-radius: 30px;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: clamp(45px, 7vw, 78px);
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    h1 .green {
+      color: var(--primary);
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.8;
+      max-width: 600px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 35px;
+    }
+
+    .btn {
+      text-decoration: none;
+      padding: 13px 23px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #06110c;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 245, 160, 0.2);
+    }
+
+    .btn-outline {
+      color: white;
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Code Card */
+    .code-card {
+      width: 370px;
+      background: rgba(16, 21, 32, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .code-top {
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .red { background: #ff5f57; }
+    .yellow { background: #febc2e; }
+    .green-dot { background: #28c840; }
+
+    pre {
+      padding: 25px;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      line-height: 1.9;
+      color: #c9d1d9;
+      overflow-x: auto;
+    }
+
+    .keyword { color: #ff7b72; }
+    .variable { color: #79c0ff; }
+    .string { color: #a5d6ff; }
+    .comment { color: #6e7681; }
+
+    /* Sections */
+    section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 100px 25px;
+    }
+
+    .section-title {
+      margin-bottom: 50px;
+    }
+
+    .section-title span {
+      color: var(--primary);
+      font-family: 'Fira Code', monospace;
+      font-size: 14px;
+    }
+
+    .section-title h2 {
+      font-size: 38px;
+      margin-top: 8px;
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .about-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 30px;
+      border-radius: 15px;
+      transition: 0.3s;
+    }
+
+    .about-card:hover {
+      border-color: rgba(0, 245, 160, 0.3);
+      transform: translateY(-5px);
+    }
+
+    .about-card h3 {
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+
+    .about-card p {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* Skills */
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .skill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 25px;
+      border-radius: 14px;
+      transition: 0.3s;
+    }
+
+    .skill:hover {
+      transform: translateY(-7px);
+      border-color: var(--primary);
+    }
+
+    .skill-icon {
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+
+    .skill h3 {
+      margin-bottom: 8px;
+    }
+
+    .skill p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .level {
+      height: 5px;
+      background: #202735;
+      border-radius: 10px;
+      margin-top: 18px;
+      overflow: hidden;
+    }
+
+    .level span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 10px;
+    }
+
+    /* Journey */
+    .timeline {
+      border-left: 2px solid rgba(0, 245, 160, 0.2);
+      padding-left: 30px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 35px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: var(--primary);
+      border-radius: 50%;
+      left: -37px;
+      top: 5px;
+      box-shadow: 0 0 15px var(--primary);
+    }
+
+    .timeline-item span {
+      color: var(--primary);
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+    }
+
+    .timeline-item h3 {
+      margin: 5px 0;
+    }
+
+    .timeline-item p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* Contact */
+    .contact {
+      text-align: center;
+      background: linear-gradient(
+        135deg,
+        rgba(0, 245, 160, 0.06),
+        rgba(0, 217, 245, 0.04)
+      );
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 70px 30px;
+    }
+
+    .contact h2 {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .contact p {
+      color: var(--muted);
+      margin-bottom: 30px;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer span {
+      color: var(--primary);
+    }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      nav ul {
+        display: none;
+      }
+
+      .hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .code-card {
+        width: 100%;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skills {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .hero {
+        padding-top: 120px;
+      }
+
+      h1 {
+        font-size: 45px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">&lt;<span>Likhith</span>PB /&gt;</div>
+
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#journey">Journey</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- Hero -->
+  <main id="home">
+    <div class="hero">
+
+      <div class="hero-content">
+
+        <div class="tag">
+          &lt; aspiring-developer /&gt;
+        </div>
+
+        <h1>
+          Hi, I'm <span class="green">Likhith PB.</span>
+        </h1>
+
+        <p>
+          I'm a 3rd semester Computer Science Engineering student
+          passionate about building things for the web and solving
+          problems with code.
+        </p>
+
+        <div class="buttons">
+          <a href="#skills" class="btn btn-primary">
+            Explore My Skills →
+          </a>
+
+          <a href="#contact" class="btn btn-outline">
+            Let's Connect
+          </a>
+        </div>
+
+      </div>
+
+
+      <!-- Code Window -->
+      <div class="code-card">
+
+        <div class="code-top">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green-dot"></div>
+        </div>
+
+        <pre><span class="keyword">class</span> <span class="variable">Developer</span> {
+
+  <span class="variable">name</span> = <span class="string">"Likhith PB"</span>;
+  <span class="variable">semester</span> = <span class="string">"3rd"</span>;
+  <span class="variable">branch</span> = <span class="string">"CSE"</span>;
+
+  <span class="variable">learning</span> = [
+    <span class="string">"Web Development"</span>,
+    <span class="string">"DSA in C++"</span>,
+    <span class="string">"Python"</span>
+  ];
+
+  <span class="keyword">while</span> (<span class="variable">alive</span>) {
+    <span class="variable">learn</span>();
+    <span class="variable">build</span>();
+    <span class="variable">repeat</span>();
+  }
+}</pre>
+
+      </div>
+
+    </div>
+  </main>
+
+
+  <!-- About -->
+  <section id="about">
+
+    <div class="section-title">
+      <span>01 / ABOUT ME</span>
+      <h2>A little about me.</h2>
+    </div>
+
+    <div class="about-grid">
+
+      <div class="about-card">
+        <h3>🎓 Student</h3>
+        <p>
+          I'm currently pursuing my BTech in Computer Science Engineering
+          and I'm in my 3rd semester. College is where I'm building my
+          foundation in computer science and exploring different areas
+          of technology.
+        </p>
+      </div>
+
+      <div class="about-card">
+        <h3>💻 Developer in Progress</h3>
+        <p>
+          I'm currently learning web development and exploring how
+          HTML, CSS and JavaScript come together to create interactive
+          websites and applications.
+        </p>
+      </div>
+
+      <div class="about-card">
+        <h3>🧠 Problem Solver</h3>
+        <p>
+          I'm learning Data Structures and Algorithms using C++,
+          focusing on improving my problem-solving skills one problem
+          at a time.
+        </p>
+      </div>
+
+      <div class="about-card">
+        <h3>🐍 Python Basics</h3>
+        <p>
+          I have a basic understanding of Python and I'm continuing
+          to improve my programming fundamentals through practice
+          and small projects.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- Skills -->
+  <section id="skills">
+
+    <div class="section-title">
+      <span>02 / SKILLS</span>
+      <h2>What I'm learning.</h2>
+    </div>
+
+    <div class="skills">
+
+      <div class="skill">
+        <div class="skill-icon">🌐</div>
+        <h3>HTML & CSS</h3>
+        <p>
+          Learning to build clean, responsive and modern websites.
+        </p>
+
+        <div class="level">
+          <span style="width: 75%"></span>
+        </div>
+      </div>
+
+
+      <div class="skill">
+        <div class="skill-icon">⚡</div>
+        <h3>JavaScript</h3>
+        <p>
+          Exploring the fundamentals of JavaScript and web interactions.
+        </p>
+
+        <div class="level">
+          <span style="width: 40%"></span>
+        </div>
+      </div>
+
+
+      <div class="skill">
+        <div class="skill-icon">⚙️</div>
+        <h3>C++</h3>
+        <p>
+          Currently using C++ to learn Data Structures and Algorithms.
+        </p>
+
+        <div class="level">
+          <span style="width: 55%"></span>
+        </div>
+      </div>
+
+
+      <div class="skill">
+        <div class="skill-icon">🐍</div>
+        <h3>Python</h3>
+        <p>
+          Comfortable with the basics and continuing to practice.
+        </p>
+
+        <div class="level">
+          <span style="width: 45%"></span>
+        </div>
+      </div>
+
+
+      <div class="skill">
+        <div class="skill-icon">🧩</div>
+        <h3>DSA</h3>
+        <p>
+          Currently learning algorithms, data structures and problem solving.
+        </p>
+
+        <div class="level">
+          <span style="width: 40%"></span>
+        </div>
+      </div>
+
+
+      <div class="skill">
+        <div class="skill-icon">🚀</div>
+        <h3>Learning</h3>
+        <p>
+          Always curious, always experimenting and always building.
+        </p>
+
+        <div class="level">
+          <span style="width: 85%"></span>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- Journey -->
+  <section id="journey">
+
+    <div class="section-title">
+      <span>03 / MY JOURNEY</span>
+      <h2>Currently building my foundation.</h2>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <span>NOW</span>
+        <h3>3rd Semester — CSE</h3>
+        <p>
+          Pursuing BTech in Computer Science Engineering and
+          strengthening my programming fundamentals.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <span>LEARNING</span>
+        <h3>Data Structures & Algorithms</h3>
+        <p>
+          Currently learning DSA using C++ and practicing
+          problem-solving concepts.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <span>EXPLORING</span>
+        <h3>Web Development</h3>
+        <p>
+          Learning HTML, CSS and JavaScript while creating
+          websites and experimenting with frontend development.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <span>FOUNDATION</span>
+        <h3>Python</h3>
+        <p>
+          Built a foundation in Python and learned the basics
+          of programming.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- Contact -->
+  <section id="contact">
+
+    <div class="contact">
+
+      <h2>Let's build something. 🚀</h2>
+
+      <p>
+        I'm still learning, experimenting and improving every day.
+        This is just the beginning.
+      </p>
+
+      <a href="mailto:yourmail@example.com" class="btn btn-primary">
+        Say Hello →
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- Footer -->
+  <footer>
     <p>
-        Hi! I'm <strong>Likhith PB</strong>, a BTech Computer Science and
-        Engineering student currently in my 3rd semester.
+      Designed & built by <span>Likhith PB</span> ·
+      Keep learning. Keep building. 🚀
     </p>
+  </footer>
 
-    <p>
-        I am passionate about technology and currently learning
-        <strong>Web Development</strong>. I enjoy exploring new concepts,
-        building projects, and improving my programming skills.
-    </p>
-</section>
-
-<hr>
-
-<!-- Skills Section -->
-<section id="skills">
-    <h2>Skills</h2>
-
-    <ul>
-        <li>HTML - Basics</li>
-        <li>Python - Basics</li>
-        <li>C++ - Currently learning DSA</li>
-        <li>Web Development - Currently learning</li>
-    </ul>
-</section>
-
-<hr>
-
-<!-- Learning Section -->
-<section id="learning">
-    <h2>Currently Learning</h2>
-
-    <h3>Web Development</h3>
-    <p>
-        I am currently learning the fundamentals of web development,
-        starting with HTML and planning to learn CSS and JavaScript.
-    </p>
-
-    <h3>Data Structures & Algorithms</h3>
-    <p>
-        I am currently learning DSA using C++ to improve my
-        problem-solving and programming skills.
-    </p>
-</section>
-
-<hr>
-
-<!-- Education Section -->
-<section id="education">
-    <h2>Education</h2>
-
-    <p>
-        <strong>BTech - Computer Science and Engineering</strong>
-    </p>
-
-    <p>
-        Currently pursuing | 3rd Semester
-    </p>
-</section>
-
-<hr>
-
-<!-- Goals Section -->
-<section id="goals">
-    <h2>My Goals</h2>
-
-    <ul>
-        <li>Become a skilled Web Developer</li>
-        <li>Strengthen my DSA and problem-solving skills</li>
-        <li>Build real-world projects</li>
-        <li>Learn new technologies</li>
-        <li>Grow as a software developer</li>
-    </ul>
-</section>
-
-<hr>
-
-<!-- Contact Section -->
-<section id="contact">
-    <h2>Contact</h2>
-
-    <p>
-        If you'd like to connect with me, feel free to reach out.
-    </p>
-
-    <p>
-        <strong>Name:</strong> Likhith PB
-    </p>
-</section>
-
-<hr>
-
-<!-- Footer -->
-<footer>
-    <p>
-        © 2026 Likhith PB. All rights reserved.
-    </p>
-</footer>
-
-</body> </html>
+</body>
+</html>
